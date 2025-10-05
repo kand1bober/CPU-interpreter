@@ -1,14 +1,10 @@
-#include <stdio.h>
-#include <string.h>
-
 #include "../include/cpu_header.h"
-#include "../../common/interface.h"
-#include "../../utilities/file_work.h"
+#include "../include/dsl.h"
 
 int main()
 {
     BufInfo input;
-    read_file(CMD_BIN_FILENAME, &input);
+    read_file(kCmdBinFilename, &input);
 
     CpuState cpu_state;
 
@@ -17,9 +13,7 @@ int main()
     {
         fetch(&cpu_state, &input, &curr_cmd);
 
-        decode(&cpu_state, &curr_cmd);
-
-        execute(&cpu_state);
+        decode_exec(&cpu_state, curr_cmd);
 
         if (cpu_state.status == kInputEnd)
             break;
@@ -33,13 +27,13 @@ int main()
 
 void fetch(CpuState* cpu_state, BufInfo* input, uint32_t* curr_cmd)
 {
-    memcpy(curr_cmd, input->pos, CMD_SIZE);
+    memcpy(curr_cmd, input->buf + input->pos, CMD_SIZE);
     input->pos += CMD_SIZE;
 
     if (input->pos >= input->sz)
         cpu_state->status = kInputEnd;
     
-    cpu_state->status == kGood; 
+    cpu_state->status = kGood; 
 }
 
 

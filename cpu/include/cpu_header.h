@@ -1,8 +1,14 @@
 #include <stdint.h>
 #include <stddef.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 #ifndef CPU_HEADER
-#define COU_HEADER
+#define CPU_HEADER
+
+#include "../../common/interface.h"
+#include "../../utilities/file_work.h"
 
 #define kNumRegs 32
 typedef uint32_t Register;
@@ -39,7 +45,7 @@ typedef struct
 #define REG_3_SHIFT 11
 #define GET_REG_1(cmd) (((cmd) >> REG_1_SHIFT) & OPERAND_MASK)  
 #define GET_REG_2(cmd) (((cmd) >> REG_2_SHIFT) & OPERAND_MASK)  
-#define GET_REG_2(cmd) (((cmd) >> REG_3_SHIFT) & OPERAND_MASK)  
+#define GET_REG_3(cmd) (((cmd) >> REG_3_SHIFT) & OPERAND_MASK)  
 
 #define FUNC_MASK 31 //5 bits == 1
 #define GET_FUNC(cmd) ((cmd) & FUNC_MASK)
@@ -70,11 +76,10 @@ typedef enum
     kUsat,
 } Opcodes;
 
-#define CMD_CASE(code, ...) \
-case(code): \
-{ \
-    do$$code(cpu_state, __VA_ARGS__); \
-    break; \
-}\
+void fetch(CpuState* cpu_state, BufInfo* input, uint32_t* curr_cmd);
+void decode_exec(CpuState* cpu_state, uint32_t curr_cmd);
+void write_to_mem(CpuState* cpu_state, size_t pos);
+void advance_pc(CpuState* cpu_state);
+void except_handler();
 
 #endif

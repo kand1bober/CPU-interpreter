@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <sys/stat.h>
+#include <stdlib.h>
 
 #ifndef FILE_WORK_HEADER
 #define FILE_WORK_HEADER
@@ -16,5 +17,7 @@ typedef struct
     size_t sz;
     size_t pos;
 } BufInfo;
+
+void read_file(const char* filepath, BufInfo* buf_info);
 
 #endif

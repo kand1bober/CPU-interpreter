@@ -15,7 +15,7 @@ void do_kSub(CpuState* cpu_state, uint8_t rd, uint8_t rs, uint8_t rt)
 }
 
 
-void do_kSub(CpuState* cpu_state, uint8_t rd, uint8_t rs, uint8_t rt)
+void do_kOr(CpuState* cpu_state, uint8_t rd, uint8_t rs, uint8_t rt)
 {
     Register* regs = cpu_state->gpr_regs;
     regs[rd] = regs[rs] & regs[rt];
