@@ -1,6 +1,6 @@
 CC = gcc
 
-CFLAGS = -Wall -fsanitize=address,undefined -O0
+CFLAGS = -Wall -fsanitize=address,undefined -O0 -lm
 
 SRC_DIR_CPU = cpu/src
 SRC_CPU = $(wildcard $(SRC_DIR_CPU)/*c ) 

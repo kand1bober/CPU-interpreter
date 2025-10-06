@@ -6,7 +6,7 @@
 #define CMD_CASE(code, ...) \
 case(code): \
 { \
-    do_##code(cpu_state, __VA_ARGS__); \
+    do_##code(__VA_ARGS__); \
     break; \
 }\
 

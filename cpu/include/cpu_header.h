@@ -10,9 +10,8 @@
 #include "../../common/interface.h"
 #include "../../utilities/file_work.h"
 
+typedef int32_t Register;
 #define kNumRegs 32
-typedef uint32_t Register;
-
 #define CMD_SIZE 4 //bytes
 
 typedef enum 
@@ -23,30 +22,34 @@ typedef enum
 
 typedef struct
 {   
-    uint32_t* data; 
+    char* data; 
 } Memory;
 
 typedef struct
 {   
     CpuInfo status;
-
     Register gpr_regs[kNumRegs];
+    Register pc;
     Memory* memory;
 } CpuState;
-
 
 #define TYPE_MASK 63 //6 bits == 1
 #define TYPE_SHIFT 26 
 #define GET_TYPE(cmd) (((cmd) >> TYPE_SHIFT) & TYPE_MASK) 
 
 #define OPERAND_MASK 31 //5 bits == 1 
-#define REG_1_SHIFT 21 
-#define REG_2_SHIFT 16 
-#define REG_3_SHIFT 11
-#define GET_REG_1(cmd) (((cmd) >> REG_1_SHIFT) & OPERAND_MASK)  
-#define GET_REG_2(cmd) (((cmd) >> REG_2_SHIFT) & OPERAND_MASK)  
-#define GET_REG_3(cmd) (((cmd) >> REG_3_SHIFT) & OPERAND_MASK)  
+#define ARG_1_SHIFT 21 
+#define ARG_2_SHIFT 16 
+#define ARG_3_SHIFT 11
+#define GET_ARG_1(cmd) (((cmd) >> ARG_1_SHIFT) & OPERAND_MASK)  
+#define GET_ARG_2(cmd) (((cmd) >> ARG_2_SHIFT) & OPERAND_MASK)  
+#define GET_ARG_3(cmd) (((cmd) >> ARG_3_SHIFT) & OPERAND_MASK)  
 
+#define GET_LAST_10(cmd) ((cmd) & 1023) //10 bits == 1
+#define GET_LAST_15(cmd) ((cmd) & 32767) //15 bits == 1  
+#define GET_LAST_25(cmd) ((cmd) & 33554431) //25 bits == 1
+
+//for R-type
 #define FUNC_MASK 31 //5 bits == 1
 #define GET_FUNC(cmd) ((cmd) & FUNC_MASK)
 

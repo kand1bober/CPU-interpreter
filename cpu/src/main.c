@@ -3,15 +3,15 @@
 
 int main()
 {
-    BufInfo input;
-    read_file(kCmdBinFilename, &input);
+    BufInfo code;
+    read_file(kCmdBinFilename, &code);
 
-    CpuState cpu_state;
-
+    CpuState cpu_state = {.status = kGood, .pc = 0};
+    
     uint32_t curr_cmd = 0;
     while (1)
     {
-        fetch(&cpu_state, &input, &curr_cmd);
+        fetch(&cpu_state, &code, &curr_cmd);
 
         decode_exec(&cpu_state, curr_cmd);
 
@@ -19,18 +19,18 @@ int main()
             break;
     }
 
-    free(input.buf);
+    free(code.buf);
 
     return 0;
 }
 
 
-void fetch(CpuState* cpu_state, BufInfo* input, uint32_t* curr_cmd)
+void fetch(CpuState* cpu_state, BufInfo* code, uint32_t* curr_cmd)
 {
-    memcpy(curr_cmd, input->buf + input->pos, CMD_SIZE);
-    input->pos += CMD_SIZE;
+    memcpy(curr_cmd, code->buf + cpu_state->pc * CMD_SIZE, CMD_SIZE);
+    cpu_state->pc += CMD_SIZE;
 
-    if (input->pos >= input->sz)
+    if ((cpu_state->pc * CMD_SIZE) >= code->sz)
         cpu_state->status = kInputEnd;
     
     cpu_state->status = kGood; 
@@ -45,71 +45,46 @@ void decode_exec(CpuState* cpu_state, uint32_t curr_cmd)
         {
             switch(GET_FUNC(curr_cmd))
             {
-                CMD_CASE(kAdd, GET_REG_3(curr_cmd), GET_REG_1(curr_cmd), GET_REG_2(curr_cmd))
+                CMD_CASE(kAdd, cpu_state, GET_ARG_3(curr_cmd), GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd))
+                
+                CMD_CASE(kSub, cpu_state, GET_ARG_3(curr_cmd), GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd))
 
-                CMD_CASE(kSub, GET_REG_3(curr_cmd), GET_REG_1(curr_cmd), GET_REG_2(curr_cmd))
+                CMD_CASE(kOr, cpu_state, GET_ARG_3(curr_cmd), GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd))
 
-                CMD_CASE(kOr, GET_REG_3(curr_cmd), GET_REG_1(curr_cmd), GET_REG_2(curr_cmd))
+                CMD_CASE(kBext, cpu_state, GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd), GET_ARG_3(curr_cmd))
 
-                CMD_CASE(kBext, GET_REG_1(curr_cmd), GET_REG_2(curr_cmd), GET_REG_3(curr_cmd))
+                CMD_CASE(kSyscall, cpu_state)
 
-                // CMD_CASE(kSub, )
+                CMD_CASE(kClz, cpu_state, GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd))
 
-                // CMD_CASE(kSub, )
-
-                default:
-                {
+                default:{
                     break;
                 } 
             }
 
             break;
         }
-        case kSlti: 
-        {
 
-            break;
-        }
-        case kSt: 
-        {
-            break;
-        }
-        case kSsat: 
-        {
-            break;
-        }
-        case kLdp: 
-        {
-            break;
-        }
-        case kBeq: 
-        {
-            break;
-        }
-        case kLd: 
-        {
-            break;
-        }
-        case kJ: 
-        {
-            break;
-        }
-        case kUsat: 
-        {
-            break;
-        }
-        default:
-        {
+        CMD_CASE(kSlti, cpu_state, GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd), GET_LAST_15(curr_cmd))
 
+        CMD_CASE(kSt, cpu_state, GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd), GET_LAST_15(curr_cmd))
+
+        CMD_CASE(kSsat, cpu_state, GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd), GET_ARG_2(curr_cmd))
+
+        CMD_CASE(kLdp, cpu_state, GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd), GET_ARG_3(curr_cmd), GET_LAST_10(curr_cmd))
+
+        CMD_CASE(kBeq, cpu_state, GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd), GET_LAST_15(curr_cmd))
+
+        CMD_CASE(kLd, cpu_state, GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd), GET_LAST_15(curr_cmd))
+
+        CMD_CASE(kJ, cpu_state, GET_LAST_25(curr_cmd))
+
+        CMD_CASE(kUsat, cpu_state, GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd), GET_ARG_3(curr_cmd))
+
+        default:{
             break;
         }
     }
-}
-
-
-void execute(CpuState* cpu_state)
-{
-
 }
 
 
