@@ -1,2 +1,4 @@
-ADD
-ADD
+ADD 1 2 3
+SUB 4 5 6 
+BEXT 7 8 9
+OR 11 12 13
