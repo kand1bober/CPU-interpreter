@@ -29,6 +29,5 @@ delete:
 
 clean: 
 	@rm -f $(EXECUTABLE) 
-	@rm -f cpu/src/main.o cpu/src/instructions.o
-	@rm -f utilities/file_work.o
+
 	

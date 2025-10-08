@@ -53,7 +53,8 @@ void decode_exec(CpuState* cpu_state, uint32_t curr_cmd);
 
 
 #define CPU_DUMP(cpu_state) \
-    printf("Registers:\n");\
+    printf("Registers:\n"\
+           "pc: %-2d\n", cpu_state->pc);\
     for (int i = 0; i < kNumRegs; i += 4) \
     { \
         for (int j = 0; j < 4; j++) \

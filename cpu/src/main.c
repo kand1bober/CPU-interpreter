@@ -37,14 +37,14 @@ int main()
 
 void fetch(CpuState* cpu_state, BufInfo* code, uint32_t* curr_cmd)
 {
-    if ((cpu_state->pc * CMD_SIZE) >= (code->sz + 1 - CMD_SIZE)) 
+    if ((cpu_state->pc) >= (code->sz - CMD_SIZE + 1)) 
     {
         cpu_state->status = kInputEnd;
         return;
     }
 
-    memcpy(curr_cmd, code->buf + cpu_state->pc * CMD_SIZE, CMD_SIZE);
-    cpu_state->pc += 1;
+    memcpy(curr_cmd, code->buf + cpu_state->pc, CMD_SIZE);
+    cpu_state->pc += CMD_SIZE;
 
     cpu_state->status = kGood; 
 }

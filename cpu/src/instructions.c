@@ -6,10 +6,11 @@
                             "  line: %d\n", __FILE__, __PRETTY_FUNCTION__, __LINE__); \
                      exit(1); 
 
-#define EXEC_ASSERT(cond)   if (!(cond)) \
-                            { \
-                                EXEC_ERROR \
-                            }
+#define EXEC_ASSERT(cond, text)     if (!(cond)) \
+                                    { \
+                                        EXEC_ERROR \
+                                        printf("details: bad %s\n\n", text); \
+                                    }
 
 void do_kAdd(CpuState* cpu_state, uint8_t rd, uint8_t rs, uint8_t rt)
 {
@@ -81,7 +82,7 @@ void do_kSlti(CpuState* cpu_state, uint8_t rs, uint8_t rt, int16_t imm)
 
 void do_kSt(CpuState* cpu_state, uint8_t base, uint8_t rt, int16_t offset)
 {
-    EXEC_ASSERT((offset & 3) == 0) //check allignment
+    EXEC_ASSERT((offset & 3) == 0, "align") //check allignment
 
     Register* regs = cpu_state->gpr_regs;
 
@@ -112,7 +113,7 @@ void do_kSsat(CpuState* cpu_state, uint8_t rd, uint8_t rs, int16_t imm5)
 //offset = 10-bit number
 void do_kLdp(CpuState* cpu_state, uint8_t base, uint8_t rt1, uint8_t rt2, int16_t offset)
 {
-    EXEC_ASSERT((offset & 3) == 0) //check allignment
+    EXEC_ASSERT((offset & 3) == 0, "align") //check allignment
 
     Register* regs = cpu_state->gpr_regs;
     Register addr = regs[base] + (Register)offset;
@@ -140,7 +141,7 @@ void do_kBeq(CpuState* cpu_state, uint8_t rs, uint8_t rt, int16_t offset)
 
 void do_kLd(CpuState* cpu_state, uint8_t base, uint8_t rt, int16_t offset)
 {
-    EXEC_ASSERT((offset & 3) == 0) //check allignment
+    EXEC_ASSERT((offset & 3) == 0, "align") //check allignment
 
     Register* regs = cpu_state->gpr_regs;
 
