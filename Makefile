@@ -15,13 +15,17 @@ OBJ = $(OBJ_CPU) $(OBJ_UTILITIES)
 
 EXECUTABLE = CPU
 
-all: $(EXECUTABLE) 
+all: $(EXECUTABLE) delete 
 
 $(EXECUTABLE): $(OBJ) 
 	$(CC) $(OBJ) $(CFLAGS) -o $(EXECUTABLE)
 
 %.o: %.cpp
-	$(CC) -c $(CFLAGS) -Icpu/include -Iutilities $< -o $@ 
+	$(CC) -c $(CFLAGS) -Icpu/include -Iutilities $< $@ 
+	
+delete:
+	@rm -f cpu/src/main.o cpu/src/instructions.o
+	@rm -f utilities/file_work.o
 
 clean: 
 	@rm -f $(EXECUTABLE) 

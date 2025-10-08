@@ -1,22 +1,32 @@
-#include "../include/cpu_header.h"
-#include "../include/dsl.h"
+#include "../include/include.h"
 
 int main()
 {
+    //read instructions
     BufInfo code;
+    extern const char* kCmdBinFilename;
     read_file(kCmdBinFilename, &code);
 
+    //start interpreter
     CpuState cpu_state = {.status = kGood, .pc = 0};
-    
     uint32_t curr_cmd = 0;
+
+    //------- TEST -------------
+    cpu_state.gpr_regs[2] = 6;
+    cpu_state.gpr_regs[3] = 9;
+
+    cpu_state.gpr_regs[5] = 17;
+    cpu_state.gpr_regs[6] = 18;
+    //--------------------------
+
     while (1)
     {
         fetch(&cpu_state, &code, &curr_cmd);
 
-        decode_exec(&cpu_state, curr_cmd);
-
         if (cpu_state.status == kInputEnd)
             break;
+
+        decode_exec(&cpu_state, curr_cmd);
     }
 
     free(code.buf);
@@ -27,26 +37,32 @@ int main()
 
 void fetch(CpuState* cpu_state, BufInfo* code, uint32_t* curr_cmd)
 {
-    memcpy(curr_cmd, code->buf + cpu_state->pc * CMD_SIZE, CMD_SIZE);
-    cpu_state->pc += CMD_SIZE;
-
-    if ((cpu_state->pc * CMD_SIZE) >= code->sz)
+    if ((cpu_state->pc * CMD_SIZE) >= (code->sz + 1 - CMD_SIZE)) 
+    {
         cpu_state->status = kInputEnd;
-    
+        return;
+    }
+
+    memcpy(curr_cmd, code->buf + cpu_state->pc * CMD_SIZE, CMD_SIZE);
+    cpu_state->pc += 1;
+
     cpu_state->status = kGood; 
 }
 
 
 void decode_exec(CpuState* cpu_state, uint32_t curr_cmd)
 {
+    DEB(CMD_DUMP(curr_cmd))
+    DEB(CPU_DUMP(cpu_state))
+
     switch (GET_TYPE(curr_cmd))
     {
-        case kRtype:
+        case 0:
         {
             switch(GET_FUNC(curr_cmd))
             {
                 CMD_CASE(kAdd, cpu_state, GET_ARG_3(curr_cmd), GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd))
-                
+
                 CMD_CASE(kSub, cpu_state, GET_ARG_3(curr_cmd), GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd))
 
                 CMD_CASE(kOr, cpu_state, GET_ARG_3(curr_cmd), GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd))
@@ -86,22 +102,3 @@ void decode_exec(CpuState* cpu_state, uint32_t curr_cmd)
         }
     }
 }
-
-
-void write_to_mem(CpuState* cpu_state, size_t pos)
-{
-
-}
-
-
-void advance_pc(CpuState* cpu_state)
-{
-
-}
-
-
-void except_handler()
-{
-    //advance_pc; return;
-}
-

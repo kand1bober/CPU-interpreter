@@ -1,11 +1,52 @@
-#ifndef INSTRUCTIONS_HEADER
-#define INSTRUCTIONS_HEADER
-
 #include <unistd.h>
 #include <sys/syscall.h>
 #include <math.h>
 
 #include "cpu_header.h"
+
+#ifndef INSTRUCTIONS_HEADER
+#define INSTRUCTIONS_HEADER
+
+#define TYPE_MASK 0b0111111 //6 bits == 1
+#define TYPE_SHIFT 26 
+#define GET_TYPE(cmd) (((cmd) >> TYPE_SHIFT) & TYPE_MASK) 
+
+#define OPERAND_MASK 31 //5 bits == 1 
+#define ARG_1_SHIFT 21 
+#define ARG_2_SHIFT 16 
+#define ARG_3_SHIFT 11
+#define GET_ARG_1(cmd) (((cmd) >> ARG_1_SHIFT) & OPERAND_MASK)  
+#define GET_ARG_2(cmd) (((cmd) >> ARG_2_SHIFT) & OPERAND_MASK)  
+#define GET_ARG_3(cmd) (((cmd) >> ARG_3_SHIFT) & OPERAND_MASK)  
+
+#define GET_LAST_10(cmd) ((cmd) & 1023) //10 bits == 1
+#define GET_LAST_15(cmd) ((cmd) & 32767) //15 bits == 1  
+#define GET_LAST_25(cmd) ((cmd) & 33554431) //25 bits == 1
+
+//for R-type
+#define FUNC_MASK 31 //5 bits == 1
+#define GET_FUNC(cmd) ((cmd) & FUNC_MASK)
+
+typedef enum
+{   
+    //R-type (reg-reg)
+    kAdd = 24,
+    kOr = 16,
+    kBext = 15,
+    kSub = 25,
+    kSyscall = 21,
+    kClz = 28,
+
+    //Other
+    kSlti,
+    kSt,
+    kSsat,    
+    kLdp,
+    kBeq,
+    kLd,
+    kJ,
+    kUsat,
+} Opcodes;
 
 void do_kAdd(CpuState* cpu_state, uint8_t rd, uint8_t rs, uint8_t rt);
 void do_kSub(CpuState* cpu_state, uint8_t rd, uint8_t rs, uint8_t rt);

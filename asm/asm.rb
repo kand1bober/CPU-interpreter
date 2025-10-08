@@ -102,7 +102,7 @@ puts("Type filename to compile:\n")
 filename = String.new
 filename = "../" + gets.chomp
 
-File.open("../common/cmd_bin.txt", "wb") do |code|
+File.open("../cmd_bin.txt", "wb") do |code|
     File.open(filename, "r") do |file|
         file.each_line do |line|
             line.chomp
