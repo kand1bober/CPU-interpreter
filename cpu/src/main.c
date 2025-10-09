@@ -8,15 +8,17 @@ int main()
     read_file(kCmdBinFilename, &code);
 
     //start interpreter
-    CpuState cpu_state = {.status = kGood, .pc = 0};
+    CpuState cpu_state = {.status = kGood, .pc = 0, .memory.capacity = 0};
     uint32_t curr_cmd = 0;
 
     //------- TEST -------------
-    cpu_state.gpr_regs[2] = 6;
-    cpu_state.gpr_regs[3] = 9;
+    cpu_state.gpr_regs[1] = 17;
+    cpu_state.gpr_regs[2] = 12;
+    cpu_state.gpr_regs[3] = 0;
+    cpu_state.gpr_regs[4] = 0;
 
-    cpu_state.gpr_regs[5] = 17;
-    cpu_state.gpr_regs[6] = 18;
+    cpu_state.gpr_regs[5] = 0;
+    cpu_state.gpr_regs[6] = 0;
     //--------------------------
 
     while (1)
@@ -30,6 +32,7 @@ int main()
     }
 
     free(code.buf);
+    free(cpu_state.memory.data);
 
     return 0;
 }
@@ -53,7 +56,8 @@ void fetch(CpuState* cpu_state, BufInfo* code, uint32_t* curr_cmd)
 void decode_exec(CpuState* cpu_state, uint32_t curr_cmd)
 {
     DEB(CMD_DUMP(curr_cmd))
-    DEB(CPU_DUMP(cpu_state))
+    DEB(CPU_DUMP(cpu_state))    
+    DEB(MEM_DUMP)
 
     switch (GET_TYPE(curr_cmd))
     {
@@ -101,4 +105,32 @@ void decode_exec(CpuState* cpu_state, uint32_t curr_cmd)
             break;
         }
     }
+
+    DEB(CMD_DUMP(curr_cmd))
+    DEB(CPU_DUMP(cpu_state))    
+    DEB(MEM_DUMP)
 }
+
+
+void write_to_mem(CpuState* cpu_state, Register addr, Register val)
+{
+    if (addr < 0)
+    {
+        printf("Wronf addr to write to memory\n");
+        exit(0);
+    }
+
+    if (cpu_state->memory.capacity < addr + sizeof(Register))
+    {   
+        cpu_state->memory.capacity = (addr + sizeof(Register));
+        printf("HUY: %ld\n", cpu_state->memory.capacity);
+        cpu_state->memory.data = (char*)realloc(cpu_state->memory.data, cpu_state->memory.capacity);
+        if (cpu_state->memory.data == NULL)
+        {
+            perror("realloc");
+            exit(1);
+        }
+    }
+
+    *(Register*)(cpu_state->memory.data + addr) = val;
+}   

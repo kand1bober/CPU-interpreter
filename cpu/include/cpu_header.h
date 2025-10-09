@@ -31,6 +31,7 @@ typedef enum
 typedef struct
 {   
     char* data; 
+    size_t capacity;
 } Memory;
 
 
@@ -44,13 +45,13 @@ typedef struct
     CpuInfo status;
     Register gpr_regs[kNumRegs];
     Register pc;
-    Memory* memory;
+    Memory memory;
 } CpuState;
 
 
 void fetch(CpuState* cpu_state, BufInfo* input, uint32_t* curr_cmd);
 void decode_exec(CpuState* cpu_state, uint32_t curr_cmd);
-
+void write_to_mem(CpuState* cpu_state, Register addr, Register val);
 
 #define CPU_DUMP(cpu_state) \
     printf("Registers:\n"\
@@ -84,5 +85,17 @@ void decode_exec(CpuState* cpu_state, uint32_t curr_cmd);
         GET_LAST_10(curr_cmd),\
         GET_LAST_15(curr_cmd),\
         GET_LAST_25(curr_cmd));
+
+#define MEM_DUMP \
+    { \
+        printf("Memory:\n"); \
+        size_t reg_size = sizeof(Register); \
+        for (int i = 0; (i * reg_size) < cpu_state->memory.capacity; i++) \
+        { \
+            printf("%-3d: %-4d\n", i, *(Register*)(cpu_state->memory.data + i * reg_size)); \
+            printf("\n"); \
+        } \
+        printf("\n"); \
+    } \
 
 #endif

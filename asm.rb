@@ -18,7 +18,7 @@ class Cmd
     def parse()
         if ALLOWED_OPS.include?(@cmd)
 
-            puts("#{cmd} #{arg1} #{arg2} #{arg3} #{arg4}")
+            # puts("#{cmd} #{arg1} #{arg2} #{arg3} #{arg4}")
             
             method_name = "#{PREFIX}#{@cmd}"
             send(method_name) if respond_to?(method_name, true)
@@ -41,16 +41,22 @@ private
     LAST_25_MASK = 2**25 - 1
     
     def set_arg(num, arg)
-        @instr |= (arg & ARG_MASK) << ARG_SHIFTS[num]
+        @instr |= ((arg & ARG_MASK) << ARG_SHIFTS[num])
     end
 
     def set_last(arg, mask)
-        @instr |= ((arg & ARG_MASK) & mask)
+        @instr |= (arg & mask)
     end
 
     def set_code(code)
         @instr |= ((code & FUNC_MASK) << FUNC_SHIFT)
         @instr &= INSTR_MASK #leaving only 32 bits
+    end
+
+    def check_align(arg)
+        if (arg & 3) != 0 
+            abort("misaligned address(=#{arg}) in instruction")
+        end        
     end
 
     def parse_add()
@@ -76,7 +82,7 @@ private
         set_last(0b00010000, LAST_5_MASK)
         set_code(0)
     end
-
+    
     def parse_bext()
         set_arg(1, @arg1)
         set_arg(2, @arg2)
@@ -84,21 +90,20 @@ private
         set_last(0b00001111, LAST_5_MASK)
         set_code(0)
     end
-
+    
     def parse_slti()
-        set_arg(1, @arg1)
-        set_arg(2, @arg2)
+        set_arg(1, @arg2)
+        set_arg(2, @arg1)
         set_last(@arg3, LAST_15_MASK)
         set_code(0b00111101)       
     end 
-
+    
     def parse_st()
         set_arg(1, @arg3)
         set_arg(2, @arg1)
+        check_align(@arg2)
         set_last(@arg2, LAST_15_MASK)
         set_code(0b00111000)       
-
-        #TODO: add allign check of offset
     end 
     
     def parse_ssat()
@@ -112,6 +117,7 @@ private
         set_arg(1, @arg4)
         set_arg(2, @arg1)
         set_arg(3, @arg2)
+        check_align(@arg3)
         set_last(@arg3, LAST_10_MASK)
         set_code(0b00110101)       
     end
@@ -126,6 +132,7 @@ private
     def parse_ld()
         set_arg(1, @arg3)
         set_arg(2, @arg1)
+        check_align(@arg2)
         set_last(@arg2, LAST_15_MASK)
         set_code(0b00111110)           
     end

@@ -29,7 +29,7 @@ void do_kSub(CpuState* cpu_state, uint8_t rd, uint8_t rs, uint8_t rt)
 void do_kOr(CpuState* cpu_state, uint8_t rd, uint8_t rs, uint8_t rt)
 {
     Register* regs = cpu_state->gpr_regs;
-    regs[rd] = regs[rs] & regs[rt];
+    regs[rd] = regs[rs] | regs[rt];
 }
 
 
@@ -76,7 +76,7 @@ void do_kSlti(CpuState* cpu_state, uint8_t rs, uint8_t rt, int16_t imm)
 {
     Register* regs = cpu_state->gpr_regs;
 
-    regs[rs] = (regs[rs] < (Register)imm);
+    regs[rt] = (Register)(regs[rs] < (Register)imm);
 }
 
 
@@ -86,7 +86,9 @@ void do_kSt(CpuState* cpu_state, uint8_t base, uint8_t rt, int16_t offset)
 
     Register* regs = cpu_state->gpr_regs;
 
-    cpu_state->memory->data[regs[base] + (Register)offset] = regs[rt]; 
+    printf("val: %d, addr: %d\n", regs[rt], regs[base] + (Register)offset);
+
+    write_to_mem(cpu_state, regs[base] + (Register)offset, regs[rt]);
 }
 
 
@@ -118,8 +120,8 @@ void do_kLdp(CpuState* cpu_state, uint8_t base, uint8_t rt1, uint8_t rt2, int16_
     Register* regs = cpu_state->gpr_regs;
     Register addr = regs[base] + (Register)offset;
 
-    regs[rt1] = cpu_state->memory->data[addr];
-    regs[rt2] = cpu_state->memory->data[addr + 4];
+    regs[rt1] = cpu_state->memory.data[addr];
+    regs[rt2] = cpu_state->memory.data[addr + 4];
 }
 
 
@@ -145,7 +147,7 @@ void do_kLd(CpuState* cpu_state, uint8_t base, uint8_t rt, int16_t offset)
 
     Register* regs = cpu_state->gpr_regs;
 
-    regs[rt] = cpu_state->memory->data[regs[base] + (Register)offset];
+    regs[rt] = cpu_state->memory.data[regs[base] + (Register)offset];
 }
 
 

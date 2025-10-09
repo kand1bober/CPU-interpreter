@@ -38,14 +38,14 @@ typedef enum
     kClz = 28,
 
     //Other
-    kSlti,
-    kSt,
-    kSsat,    
-    kLdp,
-    kBeq,
-    kLd,
-    kJ,
-    kUsat,
+    kSlti = 61,
+    kSt = 56,
+    kSsat = 63,    
+    kLdp = 53,
+    kBeq = 22,
+    kLd = 62,
+    kJ = 48,
+    kUsat = 34,
 } Opcodes;
 
 void do_kAdd(CpuState* cpu_state, uint8_t rd, uint8_t rs, uint8_t rt);
