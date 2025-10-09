@@ -12,13 +12,13 @@ int main()
     uint32_t curr_cmd = 0;
 
     //------- TEST -------------
-    cpu_state.gpr_regs[1] = 17;
-    cpu_state.gpr_regs[2] = 12;
-    cpu_state.gpr_regs[3] = 0;
+    cpu_state.gpr_regs[1] = 0;
+    cpu_state.gpr_regs[2] = 3;
+    cpu_state.gpr_regs[3] = 1;
     cpu_state.gpr_regs[4] = 0;
 
-    cpu_state.gpr_regs[5] = 0;
-    cpu_state.gpr_regs[6] = 0;
+    cpu_state.gpr_regs[8] = 69;
+    cpu_state.gpr_regs[9] = 96;
     //--------------------------
 
     while (1)
@@ -85,19 +85,19 @@ void decode_exec(CpuState* cpu_state, uint32_t curr_cmd)
             break;
         }
 
-        CMD_CASE(kSlti, cpu_state, GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd), GET_LAST_15(curr_cmd))
+        CMD_CASE(kSlti, cpu_state, GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd), GET_LAST_16(curr_cmd))
 
-        CMD_CASE(kSt, cpu_state, GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd), GET_LAST_15(curr_cmd))
+        CMD_CASE(kSt, cpu_state, GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd), GET_LAST_16(curr_cmd))
 
-        CMD_CASE(kSsat, cpu_state, GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd), GET_ARG_2(curr_cmd))
+        CMD_CASE(kSsat, cpu_state, GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd), GET_ARG_3(curr_cmd))
 
-        CMD_CASE(kLdp, cpu_state, GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd), GET_ARG_3(curr_cmd), GET_LAST_10(curr_cmd))
+        CMD_CASE(kLdp, cpu_state, GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd), GET_ARG_3(curr_cmd), GET_LAST_11(curr_cmd))
 
-        CMD_CASE(kBeq, cpu_state, GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd), GET_LAST_15(curr_cmd))
+        CMD_CASE(kBeq, cpu_state, GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd), GET_LAST_16(curr_cmd))
 
-        CMD_CASE(kLd, cpu_state, GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd), GET_LAST_15(curr_cmd))
+        CMD_CASE(kLd, cpu_state, GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd), GET_LAST_16(curr_cmd))
 
-        CMD_CASE(kJ, cpu_state, GET_LAST_25(curr_cmd))
+        CMD_CASE(kJ, cpu_state, GET_LAST_26(curr_cmd))
 
         CMD_CASE(kUsat, cpu_state, GET_ARG_1(curr_cmd), GET_ARG_2(curr_cmd), GET_ARG_3(curr_cmd))
 
@@ -116,14 +116,13 @@ void write_to_mem(CpuState* cpu_state, Register addr, Register val)
 {
     if (addr < 0)
     {
-        printf("Wronf addr to write to memory\n");
+        printf("Error: Wrong addr to write to memory\n");
         exit(0);
     }
 
     if (cpu_state->memory.capacity < addr + sizeof(Register))
     {   
         cpu_state->memory.capacity = (addr + sizeof(Register));
-        printf("HUY: %ld\n", cpu_state->memory.capacity);
         cpu_state->memory.data = (char*)realloc(cpu_state->memory.data, cpu_state->memory.capacity);
         if (cpu_state->memory.data == NULL)
         {
@@ -134,3 +133,21 @@ void write_to_mem(CpuState* cpu_state, Register addr, Register val)
 
     *(Register*)(cpu_state->memory.data + addr) = val;
 }   
+
+
+Register read_from_mem(CpuState* cpu_state, Register addr)
+{
+    if (addr < 0)
+    {
+        printf("Error: Wrong addr to read from\n");
+        exit(0);
+    }
+
+    if (cpu_state->memory.capacity < addr + sizeof(Register))
+    {   
+        printf("Error: Trying to address unallocated memory region\n");
+        exit(0);
+    }
+
+    return *(Register*)(cpu_state->memory.data + addr);
+}

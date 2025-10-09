@@ -3,13 +3,13 @@
 #define EXEC_ERROR   printf("error in execution\n" \
                             " :file: %s\n" \
                             "  func: %s\n" \
-                            "  line: %d\n", __FILE__, __PRETTY_FUNCTION__, __LINE__); \
-                     exit(1); 
+                            "  line: %d\n", __FILE__, __PRETTY_FUNCTION__, __LINE__);
 
 #define EXEC_ASSERT(cond, text)     if (!(cond)) \
                                     { \
                                         EXEC_ERROR \
                                         printf("details: bad %s\n\n", text); \
+                                        exit(1);\
                                     }
 
 void do_kAdd(CpuState* cpu_state, uint8_t rd, uint8_t rs, uint8_t rt)
@@ -95,7 +95,10 @@ void do_kSt(CpuState* cpu_state, uint8_t base, uint8_t rt, int16_t offset)
 void do_kSsat(CpuState* cpu_state, uint8_t rd, uint8_t rs, int16_t imm5)
 {
     Register* regs = cpu_state->gpr_regs;
-    Register max_val = (Register)pow(2, imm5), min_val = -(pow(2, imm5) - 1); 
+    Register max_val = (Register)pow(2, imm5 - 1) - 1, 
+             min_val = (Register)(-pow(2, imm5 - 1)); 
+
+    printf("SSAT MAX VAL: %d, MIN: %d\n", max_val, min_val);
 
     if (regs[rs] > max_val)
     {
@@ -120,8 +123,8 @@ void do_kLdp(CpuState* cpu_state, uint8_t base, uint8_t rt1, uint8_t rt2, int16_
     Register* regs = cpu_state->gpr_regs;
     Register addr = regs[base] + (Register)offset;
 
-    regs[rt1] = cpu_state->memory.data[addr];
-    regs[rt2] = cpu_state->memory.data[addr + 4];
+    regs[rt1] = read_from_mem(cpu_state, addr);
+    regs[rt2] = read_from_mem(cpu_state, addr + 4);
 }
 
 
@@ -132,11 +135,8 @@ void do_kBeq(CpuState* cpu_state, uint8_t rs, uint8_t rt, int16_t offset)
 
     if (regs[rs] == regs[rt])
     {
+        printf("=== JUMP ===\n");
         cpu_state->pc += target;
-    }
-    else 
-    {
-        cpu_state->pc += 4;
     }
 }
 
@@ -147,7 +147,7 @@ void do_kLd(CpuState* cpu_state, uint8_t base, uint8_t rt, int16_t offset)
 
     Register* regs = cpu_state->gpr_regs;
 
-    regs[rt] = cpu_state->memory.data[regs[base] + (Register)offset];
+    regs[rt] = read_from_mem(cpu_state, regs[base] + (Register)offset);
 }
 
 
@@ -160,7 +160,8 @@ void do_kJ(CpuState* cpu_state, int32_t index)
 void do_kUsat(CpuState* cpu_state, uint8_t rd, uint8_t rs, uint8_t imm5)
 {
     Register* regs = cpu_state->gpr_regs;
-    Register max_val = pow(2, imm5); 
+    Register max_val = (Register)pow(2, imm5) - 1; 
+    printf("USAT MAX VAL: %d\n", max_val);
 
     if (regs[rs] > max_val)
     {

@@ -19,9 +19,9 @@
 #define GET_ARG_2(cmd) (((cmd) >> ARG_2_SHIFT) & OPERAND_MASK)  
 #define GET_ARG_3(cmd) (((cmd) >> ARG_3_SHIFT) & OPERAND_MASK)  
 
-#define GET_LAST_10(cmd) ((cmd) & 1023) //10 bits == 1
-#define GET_LAST_15(cmd) ((cmd) & 32767) //15 bits == 1  
-#define GET_LAST_25(cmd) ((cmd) & 33554431) //25 bits == 1
+#define GET_LAST_11(cmd) ((cmd) & 2047) //11 bits == 1
+#define GET_LAST_16(cmd) ((cmd) & 65535) //16 bits == 1  
+#define GET_LAST_26(cmd) ((cmd) & 67108863) //26 bits == 1
 
 //for R-type
 #define FUNC_MASK 31 //5 bits == 1

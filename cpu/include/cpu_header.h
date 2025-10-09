@@ -52,6 +52,8 @@ typedef struct
 void fetch(CpuState* cpu_state, BufInfo* input, uint32_t* curr_cmd);
 void decode_exec(CpuState* cpu_state, uint32_t curr_cmd);
 void write_to_mem(CpuState* cpu_state, Register addr, Register val);
+Register read_from_mem(CpuState* cpu_state, Register addr);
+
 
 #define CPU_DUMP(cpu_state) \
     printf("Registers:\n"\
@@ -82,9 +84,9 @@ void write_to_mem(CpuState* cpu_state, Register addr, Register val);
         GET_ARG_1(curr_cmd),\
         GET_ARG_2(curr_cmd),\
         GET_ARG_3(curr_cmd),\
-        GET_LAST_10(curr_cmd),\
-        GET_LAST_15(curr_cmd),\
-        GET_LAST_25(curr_cmd));
+        GET_LAST_11(curr_cmd),\
+        GET_LAST_16(curr_cmd),\
+        GET_LAST_26(curr_cmd));
 
 #define MEM_DUMP \
     { \

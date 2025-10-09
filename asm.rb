@@ -5,9 +5,9 @@ module Cmd
     FUNC_MASK = 2**6 - 1
     INSTR_MASK = 0xFFFFFFFF
     LAST_5_MASK = 2**5 - 1
-    LAST_10_MASK = 2**10 - 1
-    LAST_15_MASK = 2**15 - 1
-    LAST_25_MASK = 2**25 - 1
+    LAST_11_MASK = 2**11 - 1
+    LAST_16_MASK = 2**16 - 1
+    LAST_26_MASK = 2**26 - 1
   
     class << self #open singltone class for this module
       attr_accessor :instr, :file
@@ -90,7 +90,7 @@ end
   def slti(rt, rs, imm)
     Cmd.set_arg(1, rs)
     Cmd.set_arg(2, rt)
-    Cmd.set_last(imm, Cmd::LAST_15_MASK)
+    Cmd.set_last(imm, Cmd::LAST_16_MASK)
     Cmd.set_code(0b00111101)
     Cmd.emit
   end
@@ -99,7 +99,7 @@ end
     Cmd.set_arg(1, base)
     Cmd.set_arg(2, rt)
     Cmd.check_align(offset)
-    Cmd.set_last(offset, Cmd::LAST_15_MASK)
+    Cmd.set_last(offset, Cmd::LAST_16_MASK)
     Cmd.set_code(0b00111000)
     Cmd.emit
   end
@@ -117,7 +117,7 @@ end
     Cmd.set_arg(2, rt1)
     Cmd.set_arg(3, rt2)
     Cmd.check_align(offset)
-    Cmd.set_last(offset, Cmd::LAST_10_MASK)
+    Cmd.set_last(offset, Cmd::LAST_11_MASK)
     Cmd.set_code(0b00110101)
     Cmd.emit
   end
@@ -125,7 +125,7 @@ end
   def beq(rs, rt, offset)
     Cmd.set_arg(1, rs)
     Cmd.set_arg(2, rt)
-    Cmd.set_last(offset, Cmd::LAST_15_MASK)
+    Cmd.set_last(offset, Cmd::LAST_16_MASK)
     Cmd.set_code(0b00010110)
     Cmd.emit
   end
@@ -134,7 +134,7 @@ end
     Cmd.set_arg(1, base)
     Cmd.set_arg(2, rt)
     Cmd.check_align(offset)
-    Cmd.set_last(offset, Cmd::LAST_15_MASK)
+    Cmd.set_last(offset, Cmd::LAST_16_MASK)
     Cmd.set_code(0b00111110)
     Cmd.emit
   end
@@ -149,7 +149,7 @@ end
     index = target * 4 #TODO: jumps
     index &= (2**31 - 1 - 3)
     index &= (2**28 - 1)
-    Cmd.set_last((index >> 2), Cmd::LAST_25_MASK)
+    Cmd.set_last((index >> 2), Cmd::LAST_26_MASK)
     Cmd.set_code(0b00110000)
     Cmd.emit
   end
