@@ -1,197 +1,172 @@
-class Cmd
-    attr_accessor :cmd, :arg1, :arg2, :arg3, :arg4    
-    
-    PREFIX = "parse_"
-    ALLOWED_OPS = %w[add sub or bext slti st ssat ldp beq ld syscall j usat clz].freeze
-
-    def init(cmd = nil, arg1 = 0, arg2 = 0, arg3 = 0, arg4 = 0)
-        @cmd = cmd
-        @arg1 = arg1
-        @arg2 = arg2
-        @arg3 = arg3
-        @arg4 = arg4
-        @instr = 0
-
-        @jump_table = []
-    end
-    
-    def parse()
-        if ALLOWED_OPS.include?(@cmd)
-
-            # puts("#{cmd} #{arg1} #{arg2} #{arg3} #{arg4}")
-            
-            method_name = "#{PREFIX}#{@cmd}"
-            send(method_name) if respond_to?(method_name, true)
-        else
-            puts "Invalid instruction"
-        end
-    end
-
-private
+module Cmd
     ARG_SHIFTS = [nil, 21, 16, 11].freeze
     ARG_MASK = 2**5 - 1
-    
     FUNC_SHIFT = 26
-    FUNC_MASK = 2**6 - 1 
-
+    FUNC_MASK = 2**6 - 1
     INSTR_MASK = 0xFFFFFFFF
     LAST_5_MASK = 2**5 - 1
-    LAST_10_MASK = 2**10 - 1 
+    LAST_10_MASK = 2**10 - 1
     LAST_15_MASK = 2**15 - 1
     LAST_25_MASK = 2**25 - 1
-    
-    def set_arg(num, arg)
-        @instr |= ((arg & ARG_MASK) << ARG_SHIFTS[num])
+  
+    class << self #open singltone class for this module
+      attr_accessor :instr, :file
     end
-
-    def set_last(arg, mask)
-        @instr |= (arg & mask)
+  
+    def self.reset_instr
+      @instr = 0
     end
-
-    def set_code(code)
-        @instr |= ((code & FUNC_MASK) << FUNC_SHIFT)
-        @instr &= INSTR_MASK #leaving only 32 bits
+  
+    def self.set_arg(num, arg)
+      @instr |= ((arg & ARG_MASK) << ARG_SHIFTS[num])
     end
-
-    def check_align(arg)
-        if (arg & 3) != 0 
-            abort("misaligned address(=#{arg}) in instruction")
-        end        
+  
+    def self.set_last(arg, mask)
+      @instr |= (arg & mask)
     end
-
-    def parse_add()
-        set_arg(1, @arg2)
-        set_arg(2, @arg3)
-        set_arg(3, @arg1)
-        set_last(0b00011000, LAST_5_MASK)
-        set_code(0)
+  
+    def self.set_code(code)
+      @instr |= ((code & FUNC_MASK) << FUNC_SHIFT)
+      @instr &= INSTR_MASK
     end
-
-    def parse_sub()
-        set_arg(1, @arg2)
-        set_arg(2, @arg3)
-        set_arg(3, @arg1)
-        set_last(0b00111001, LAST_5_MASK)
-        set_code(0)
+  
+    def self.check_align(addr)
+      abort("misaligned address(=#{addr})") if (addr & 3) != 0
     end
-
-    def parse_or()
-        set_arg(1, @arg2)
-        set_arg(2, @arg3)
-        set_arg(3, @arg1)
-        set_last(0b00010000, LAST_5_MASK)
-        set_code(0)
-    end
-    
-    def parse_bext()
-        set_arg(1, @arg1)
-        set_arg(2, @arg2)
-        set_arg(3, @arg3)
-        set_last(0b00001111, LAST_5_MASK)
-        set_code(0)
-    end
-    
-    def parse_slti()
-        set_arg(1, @arg2)
-        set_arg(2, @arg1)
-        set_last(@arg3, LAST_15_MASK)
-        set_code(0b00111101)       
-    end 
-    
-    def parse_st()
-        set_arg(1, @arg3)
-        set_arg(2, @arg1)
-        check_align(@arg2)
-        set_last(@arg2, LAST_15_MASK)
-        set_code(0b00111000)       
-    end 
-    
-    def parse_ssat()
-        set_arg(1, @arg1)
-        set_arg(2, @arg2)
-        set_arg(3, @arg3)
-        set_code(0b00111111)       
-    end 
-
-    def parse_ldp()
-        set_arg(1, @arg4)
-        set_arg(2, @arg1)
-        set_arg(3, @arg2)
-        check_align(@arg3)
-        set_last(@arg3, LAST_10_MASK)
-        set_code(0b00110101)       
-    end
-
-    def parse_beq()
-        set_arg(1, @arg1)
-        set_arg(2, @arg2)
-        set_last(@arg3, LAST_15_MASK)
-        set_code(0b00010110)           
-    end
-
-    def parse_ld()
-        set_arg(1, @arg3)
-        set_arg(2, @arg1)
-        check_align(@arg2)
-        set_last(@arg2, LAST_15_MASK)
-        set_code(0b00111110)           
-    end
-
-    def parse_syscall()
-        set_last(0b010101, LAST_5_MASK)
-        set_code(0)
-    end
-
-    def parse_j()
-        #TODO: arg1 -- кол-во инструкций между текущей и меткой 
-        index = @arg1 * 4
-        index &= (2**31 - 1 - 3) #crop last 2 bits
-        index &= (2**28 - 1) #crop first 4 bits
-        set_last((index >> 2), LAST_25_MASK)
-        set_code(0b00110000)                   
-    end
-
-    def parse_usat()
-        set_arg(1, @arg1)
-        set_arg(2, @arg2)
-        set_arg(3, @arg3)
-        set_code(0b00100010)           
-    end
-
-    def parse_clz()
-        set_arg(1, @arg1)
-        set_arg(2, @arg2)
-        set_last(0b011100, LAST_5_MASK)
-        set_code(0)
-    end 
-end 
-    
-#------------------------------------------------
-
-puts("Type filename to compile:\n")
-
-filename = String.new
-filename = gets.chomp
-
-File.open("common/cmd_bin.txt", "wb") do |code|
-    File.open(filename, "r") do |file|
-        file.each_line do |line|
-            line.chomp
-
-            arg_arr = line.split(' ')
-            arg_arr.each_with_index do |arg, i|
-                if i == 0
-                    arg_arr[i] = arg.downcase    
-                else 
-                    arg_arr[i] = arg.to_i
-                end                    
-            end
-
-            cmd = Cmd.new
-            cmd.init(arg_arr[0], arg_arr[1], arg_arr[2], arg_arr[3], arg_arr[4])
-            instr = cmd.parse()
-
-            code.write([instr].pack("L<"))
-        end
+  
+    def self.emit
+      @file.write([@instr].pack("L<"))
+      reset_instr
     end    
 end
+
+#------ Callable methods (top-level) ------
+  
+  def init_cmd(filename)
+    Cmd.file = File.open(filename, "wb")
+    Cmd.reset_instr
+  end
+  
+  def close_cmd
+    Cmd.file&.close
+  end
+  
+  def add(rd, rs, rt)
+    Cmd.set_arg(1, rs)
+    Cmd.set_arg(2, rt)
+    Cmd.set_arg(3, rd)
+    Cmd.set_last(0b00011000, Cmd::LAST_5_MASK)
+    Cmd.set_code(0)
+    Cmd.emit
+  end
+  
+  def sub(rd, rs ,rt)
+    Cmd.set_arg(1, rs)
+    Cmd.set_arg(2, rt)
+    Cmd.set_arg(3, rd)
+    Cmd.set_last(0b00111001, Cmd::LAST_5_MASK)
+    Cmd.set_code(0)
+    Cmd.emit
+  end
+
+  def or(rd, rs, rt)
+    Cmd.set_arg(1, rs)
+    Cmd.set_arg(2, rt)
+    Cmd.set_arg(3, rd)
+    Cmd.set_last(0b00010000, Cmd::LAST_5_MASK)
+    Cmd.set_code(0)
+    Cmd.emit
+  end
+  
+  def bext(rd, rs1, rs2)
+    Cmd.set_arg(1, rd)
+    Cmd.set_arg(2, rs1)
+    Cmd.set_arg(3, rs2)
+    Cmd.set_last(0b00001111, Cmd::LAST_5_MASK)
+    Cmd.set_code(0)
+    Cmd.emit
+  end
+  
+  def slti(rt, rs, imm)
+    Cmd.set_arg(1, rs)
+    Cmd.set_arg(2, rt)
+    Cmd.set_last(imm, Cmd::LAST_15_MASK)
+    Cmd.set_code(0b00111101)
+    Cmd.emit
+  end
+  
+  def st(rt, offset, base)
+    Cmd.set_arg(1, base)
+    Cmd.set_arg(2, rt)
+    Cmd.check_align(offset)
+    Cmd.set_last(offset, Cmd::LAST_15_MASK)
+    Cmd.set_code(0b00111000)
+    Cmd.emit
+  end
+  
+  def ssat(rd, rs, imm5)
+    Cmd.set_arg(1, rd)
+    Cmd.set_arg(2, rs)
+    Cmd.set_arg(3, imm5)
+    Cmd.set_code(0b00111111)
+    Cmd.emit
+  end
+  
+  def ldp(rt1, rt2, offset, base)
+    Cmd.set_arg(1, base)
+    Cmd.set_arg(2, rt1)
+    Cmd.set_arg(3, rt2)
+    Cmd.check_align(offset)
+    Cmd.set_last(offset, Cmd::LAST_10_MASK)
+    Cmd.set_code(0b00110101)
+    Cmd.emit
+  end
+  
+  def beq(rs, rt, offset)
+    Cmd.set_arg(1, rs)
+    Cmd.set_arg(2, rt)
+    Cmd.set_last(offset, Cmd::LAST_15_MASK)
+    Cmd.set_code(0b00010110)
+    Cmd.emit
+  end
+  
+  def ld(rt, offset, base)
+    Cmd.set_arg(1, base)
+    Cmd.set_arg(2, rt)
+    Cmd.check_align(offset)
+    Cmd.set_last(offset, Cmd::LAST_15_MASK)
+    Cmd.set_code(0b00111110)
+    Cmd.emit
+  end
+  
+  def syscall
+    Cmd.set_last(0b010101, Cmd::LAST_5_MASK)
+    Cmd.set_code(0)
+    Cmd.emit
+  end
+  
+  def j(target)
+    index = target * 4 #TODO: jumps
+    index &= (2**31 - 1 - 3)
+    index &= (2**28 - 1)
+    Cmd.set_last((index >> 2), Cmd::LAST_25_MASK)
+    Cmd.set_code(0b00110000)
+    Cmd.emit
+  end
+  
+  def usat(rd, rs, imm5)
+    Cmd.set_arg(1, rd)
+    Cmd.set_arg(2, rs)
+    Cmd.set_arg(3, imm5)
+    Cmd.set_code(0b00100010)
+    Cmd.emit
+  end
+  
+  def clz(rd, rs)
+    Cmd.set_arg(1, rd)
+    Cmd.set_arg(2, rs)
+    Cmd.set_last(0b011100, Cmd::LAST_5_MASK)
+    Cmd.set_code(0)
+    Cmd.emit
+  end
+
