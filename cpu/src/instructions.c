@@ -45,11 +45,34 @@ void do_kBext(CpuState* cpu_state, uint8_t rd, uint8_t rs1, uint8_t rs2)
 }
 
 
+/*
+* syscalls:
+* 0 = read, 1 = write, else = unknown 
+*
+* x8 = number of syscall, x0 = argument and result
+*/
 void do_kSyscall(CpuState* cpu_state)
 {
     Register* regs = cpu_state->gpr_regs;
 
-    regs[0] = syscall(regs[8], regs[0], regs[7]);
+    switch(cpu_state->gpr_regs[8])
+    {
+        case 0:
+        {
+            scanf("%d\n", &regs[0]);
+            break;
+        }
+        case 1:
+        {
+            printf("%d\n", regs[0]);
+            break;
+        }
+        default:
+        {   
+            printf("Unknown syscall number\n");
+            exit(0);
+        }
+    }
 }
 
 
@@ -57,11 +80,12 @@ void do_kClz(CpuState* cpu_state, uint8_t rd, uint8_t rs)
 {
     Register* regs = cpu_state->gpr_regs;
 
-    Register count = 0, to_measure = regs[rs];
+    Register count = 0; 
+    uint32_t to_measure = regs[rs];
     size_t reg_size = sizeof(Register) * 8;
     for (size_t i = 0; i < reg_size; i++)
     {
-        if ((to_measure << i) >> (reg_size - 1)) {
+        if (!((to_measure << i) >> (reg_size - 1))) {
             count++;
         }
         else 

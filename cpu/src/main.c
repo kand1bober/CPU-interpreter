@@ -12,13 +12,13 @@ int main()
     uint32_t curr_cmd = 0;
 
     //------- TEST -------------
-    cpu_state.gpr_regs[1] = 0;
-    cpu_state.gpr_regs[2] = 3;
-    cpu_state.gpr_regs[3] = 1;
-    cpu_state.gpr_regs[4] = 0;
-
-    cpu_state.gpr_regs[8] = 69;
-    cpu_state.gpr_regs[9] = 96;
+    cpu_state.gpr_regs[0] = 0;
+    cpu_state.gpr_regs[1] = 753;
+    cpu_state.gpr_regs[2] = 8;
+    cpu_state.gpr_regs[3] = 0;
+    
+    cpu_state.gpr_regs[8] = 1;
+    cpu_state.gpr_regs[9] = 0;
     //--------------------------
 
     while (1)
@@ -40,7 +40,7 @@ int main()
 
 void fetch(CpuState* cpu_state, BufInfo* code, uint32_t* curr_cmd)
 {
-    if ((cpu_state->pc) >= (code->sz - CMD_SIZE + 1)) 
+    if ((cpu_state->pc + CMD_SIZE - 1) >= code->sz) 
     {
         cpu_state->status = kInputEnd;
         return;
