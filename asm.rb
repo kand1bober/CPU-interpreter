@@ -48,6 +48,28 @@ class Integer
     end
 end
 
+#redefinition of method_missing
+#for it to return array of strings 
+def method_missing(method, *args)
+    if args.empty?
+        if method.to_s[0] == 'x'
+            num = method.to_s.delete_prefix('x').to_i
+            if num > 31 || num < 0
+                abort("wrong register num (= #{num})")
+            else
+                return num
+            end
+        else
+            if method.to_s == 'to_int'
+                # puts("method: #{method.to_s}")
+            else 
+                abort("wrong register name")
+            end
+        end 
+    else 
+        abort("wrong syntax of register")
+    end
+end
 
 #------ Callable methods (top-level) ------
   
@@ -61,10 +83,6 @@ def close_cmd
 end
   
 def add(rd, rs, rt)
-    # Cmd.set_arg(1, parse_reg(rs))
-    # Cmd.set_arg(2, parse_reg(rt))
-    # Cmd.set_arg(3, parse_reg(rd))
-    
     Cmd.set_arg(1, rs)
     Cmd.set_arg(2, rt)
     Cmd.set_arg(3, rd)
@@ -111,7 +129,7 @@ end
 # mem is array of 2
 def st(rt, mem)
     offset, base = mem  
-    
+
     Cmd.set_arg(1, base)
     Cmd.set_arg(2, rt)
     Cmd.check_align(offset)
@@ -128,6 +146,7 @@ def ssat(rd, rs, imm5)
     Cmd.emit
 end
 
+# mem is array of 2
 def ldp(rt1, rt2, mem)
     offset, base = mem
     Cmd.set_arg(1, base)
@@ -146,7 +165,8 @@ def beq(rs, rt, offset)
     Cmd.set_code(0b00010110)
     Cmd.emit
 end
-  
+
+# mem is array of 2
 def ld(rt, mem)
     offset, base = mem
     Cmd.set_arg(1, base)
