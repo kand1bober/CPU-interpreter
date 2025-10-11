@@ -8,10 +8,49 @@ module Cmd
     LAST_11_MASK = 2**11 - 1
     LAST_16_MASK = 2**16 - 1
     LAST_26_MASK = 2**26 - 1
+
+    HASH_NOT_FOUND = -1
   
     class << self #open singltone class for this module
-        attr_accessor :instr, :file
+        attr_accessor :instr, :file, :instr_counter
+
+        #---------- Jump work ------------
+        @instr_counter = 0
+        def instr_counter_incr
+            @instr_counter += 1
+        end
+
+        #key = target_name, val = instr_counter, when forward jump was met
+        @forward_j_hash = Hash.new(Cmd::HASH_NOT_FOUND)
+        def forward_j_table_get(key)
+            @forward_j_hash[key]
+        end
         
+        def forward_j_table_set(key, val)
+            @forward_j_hash[key] = val
+        end
+        
+        @back_j_hash = Hash.new(Cmd::HASH_NOT_FOUND)
+        #key = target_name, instr_counter, when back jump was met
+        def back_j_table_get(key)
+            @back_j_hash[key]
+        end
+
+        def back_j_table_set(key, val)
+            @back_j_hash[key] = val
+        end
+        
+        def set_forward_j(distance)
+            index = distance * 4
+            index &= (2**31 - 1 - 3)
+            index &= (2**28 - 1)
+            set_last((index >> 2), LAST_26_MASK)
+            set_code(0b00110000)
+            reset_instr
+        end
+        #---------------------------------
+
+        #------ Coding instructions ------
         def reset_instr
             @instr = 0
         end
@@ -37,6 +76,7 @@ module Cmd
             @file.write([@instr].pack("L<"))
             reset_instr
         end    
+        #---------------------------------
     end
   
 end
@@ -51,7 +91,10 @@ end
 #redefinition of method_missing
 #for it to return array of strings 
 def method_missing(method, *args)
+    puts("method: #{method}")
+
     if args.empty?
+        #reg name met
         if method.to_s[0] == 'x'
             num = method.to_s.delete_prefix('x').to_i
             if num > 31 || num < 0
@@ -59,15 +102,57 @@ def method_missing(method, *args)
             else
                 return num
             end
-        else
-            if method.to_s == 'to_int'
-                # puts("method: #{method.to_s}")
+        #jump met 
+        elsif method.to_s.start_with?("l_")
+            #jump label met
+            if method.to_s[-1] == '!' 
+                puts("  label")
+                target = method.to_s[2..-2]
+                saved_counter = Cmd.forward_j_table_get(target)
+
+                #forward jump
+                if saved_counter != nil
+
+                    #TODO: вынести логику патчинга файла в метод класса     
+                    cur_pos = Cmd.file.seek(0, :CUR) #save position in file
+                    Cmd.file.seek((saved_counter - 1) * 4, :SET)  
+                    set_forward_j(Cmd.instr_counter - saved_counter) 
+                    Cmd.file.write([Cmd.instr].pack("L<"))    
+                    Cmd.file.seek(cur_pos, :SET) #return pos in file
+                    
+                #back jump
+                else
+                    Cmd.back_j_table_set(target, Cmd.instr_counter)
+                end
+                
+            #jump instr met
             else 
-                abort("wrong register name")
+                puts("  jump")
+                target = method.to_s[2..]
+                saved_counter = Cmd.back_j_table_get(target)
+                
+                #back jump
+                if saved_counter != nil 
+                    return (Cmd.instr_counter - saved_counter) 
+                #forward jump
+                else 
+                    Cmd.forward_j_table_set(target, Cmd.instr_counter)
+                    return 0
+                end
             end
+        elsif method.to_s == 'to_int'
+            super
+        elsif method.to_s == 'to_hash'
+            super
+        else 
+            abort("wrong register/label name")
         end 
+    elsif method.to_s == '[]'
+    elsif method.to_s == '[]='
+    elsif method.to_s == '+'
     else 
-        abort("wrong syntax of register")
+        # super
+        abort("wrong syntax")
     end
 end
 
@@ -89,6 +174,7 @@ def add(rd, rs, rt)
     Cmd.set_last(0b00011000, Cmd::LAST_5_MASK)
     Cmd.set_code(0)
     Cmd.emit
+    Cmd.instr_counter_incr
 end
 
 def sub(rd, rs ,rt)
@@ -98,6 +184,7 @@ def sub(rd, rs ,rt)
     Cmd.set_last(0b00111001, Cmd::LAST_5_MASK)
     Cmd.set_code(0)
     Cmd.emit
+    Cmd.instr_counter_incr
 end
 
 def or(rd, rs, rt)
@@ -107,6 +194,7 @@ def or(rd, rs, rt)
     Cmd.set_last(0b00010000, Cmd::LAST_5_MASK)
     Cmd.set_code(0)
     Cmd.emit
+    Cmd.instr_counter_incr
 end
   
 def bext(rd, rs1, rs2)
@@ -116,6 +204,7 @@ def bext(rd, rs1, rs2)
     Cmd.set_last(0b00001111, Cmd::LAST_5_MASK)
     Cmd.set_code(0)
     Cmd.emit
+    Cmd.instr_counter_incr
 end
   
 def slti(rt, rs, imm)
@@ -124,6 +213,7 @@ def slti(rt, rs, imm)
     Cmd.set_last(imm, Cmd::LAST_16_MASK)
     Cmd.set_code(0b00111101)
     Cmd.emit
+    Cmd.instr_counter_incr
 end
   
 # mem is array of 2
@@ -136,6 +226,7 @@ def st(rt, mem)
     Cmd.set_last(offset, Cmd::LAST_16_MASK)
     Cmd.set_code(0b00111000)
     Cmd.emit
+    Cmd.instr_counter_incr
 end
   
 def ssat(rd, rs, imm5)
@@ -144,6 +235,7 @@ def ssat(rd, rs, imm5)
     Cmd.set_arg(3, imm5)
     Cmd.set_code(0b00111111)
     Cmd.emit
+    Cmd.instr_counter_incr
 end
 
 # mem is array of 2
@@ -156,6 +248,7 @@ def ldp(rt1, rt2, mem)
     Cmd.set_arg(3, rt2)
     Cmd.set_code(0b00110101)
     Cmd.emit
+    Cmd.instr_counter_incr
 end
 
 def beq(rs, rt, offset)
@@ -164,6 +257,7 @@ def beq(rs, rt, offset)
     Cmd.set_last(offset, Cmd::LAST_16_MASK)
     Cmd.set_code(0b00010110)
     Cmd.emit
+    Cmd.instr_counter_incr
 end
 
 # mem is array of 2
@@ -175,16 +269,18 @@ def ld(rt, mem)
     Cmd.set_last(offset, Cmd::LAST_16_MASK)
     Cmd.set_code(0b00111110)
     Cmd.emit
+    Cmd.instr_counter_incr
 end
   
 def syscall
     Cmd.set_last(0b010101, Cmd::LAST_5_MASK)
     Cmd.set_code(0)
     Cmd.emit
+    Cmd.instr_counter_incr
 end
   
-def j(target)
-    index = target * 4 #TODO: jumps
+def j(distance)
+    index = distance * 4
     index &= (2**31 - 1 - 3)
     index &= (2**28 - 1)
     Cmd.set_last((index >> 2), Cmd::LAST_26_MASK)
@@ -198,6 +294,7 @@ def usat(rd, rs, imm5)
     Cmd.set_arg(3, imm5)
     Cmd.set_code(0b00100010)
     Cmd.emit
+    Cmd.instr_counter_incr
 end
   
 def clz(rd, rs)
@@ -206,5 +303,6 @@ def clz(rd, rs)
     Cmd.set_last(0b011100, Cmd::LAST_5_MASK)
     Cmd.set_code(0)
     Cmd.emit
+    Cmd.instr_counter_incr
 end
 
