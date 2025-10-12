@@ -102,10 +102,10 @@ def method_missing(method, *args)
         elsif method.to_s.start_with?("l_")
             #jump label met
             if method.to_s[-1] == '!' 
-                puts("label")
+                # puts("label")
                 target = method.to_s[2..-2]
                 saved_counter = Cmd.forward_j_table_get(target)
-                puts("forward jump saved_counter: #{saved_counter}")
+                # puts("forward jump saved_counter: #{saved_counter}")
                 
                 #forward jump
                 if saved_counter != Cmd::HASH_NOT_FOUND
@@ -119,16 +119,16 @@ def method_missing(method, *args)
                     
                 #back jump
                 else
-                    puts("back jump instr_counter: #{Cmd.instr_counter}")
+                    # puts("back jump instr_counter: #{Cmd.instr_counter}")
                     Cmd.back_j_table_set(target, Cmd.instr_counter)
                 end
                 
             #jump instr met
             else 
-                puts("jump")
+                # puts("jump")
                 target = method.to_s[2..]
                 saved_counter = Cmd.back_j_table_get(target)
-                puts("back jump saved_counter: #{saved_counter}")
+                # puts("back jump saved_counter: #{saved_counter}")
 
                 #back jump
                 if saved_counter != Cmd::HASH_NOT_FOUND 
