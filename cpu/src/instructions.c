@@ -59,7 +59,7 @@ void do_kSyscall(CpuState* cpu_state)
     {
         case 0:
         {
-            scanf("%d\n", &regs[0]);
+            scanf("%d", &regs[0]);
             break;
         }
         case 1:
@@ -177,7 +177,7 @@ void do_kLd(CpuState* cpu_state, uint8_t base, uint8_t rt, int16_t offset)
 
 void do_kJ(CpuState* cpu_state, int32_t index)
 {
-    printf("JUMP TO POS: %d\n", index);
+    // printf("JUMP TO POS: %d\n", index);
     cpu_state->pc = ((Register)index << 2) | ((cpu_state->pc >> 28) << 28);
 }
 

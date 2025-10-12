@@ -39,11 +39,8 @@ module Cmd
             @back_j_hash[key] = val
         end
         
-        def set_forward_j(distance)
-            index = distance
-            index &= (2**31 - 1 - 3)
-            index &= (2**28 - 1)
-            set_last((index >> 2), LAST_26_MASK)
+        def set_forward_j(index)
+            set_last(index, LAST_26_MASK)
             set_code(0b00110000)
             reset_instr
         end
@@ -90,7 +87,7 @@ end
 #redefinition of method_missing
 #for it to return array of strings 
 def method_missing(method, *args)
-    puts("method: #{method}")
+    # puts("method: #{method}")
 
     if args.empty?
         #reg name met
@@ -108,9 +105,8 @@ def method_missing(method, *args)
                 puts("label")
                 target = method.to_s[2..-2]
                 saved_counter = Cmd.forward_j_table_get(target)
-                puts("hash_table == nil: #{Cmd.forward_j_hash == nil}")
-                puts("saved_counter: #{saved_counter}")
-
+                puts("forward jump saved_counter: #{saved_counter}")
+                
                 #forward jump
                 if saved_counter != Cmd::HASH_NOT_FOUND
 
@@ -123,7 +119,7 @@ def method_missing(method, *args)
                     
                 #back jump
                 else
-                    puts("instr_counter: #{Cmd.instr_counter}")
+                    puts("back jump instr_counter: #{Cmd.instr_counter}")
                     Cmd.back_j_table_set(target, Cmd.instr_counter)
                 end
                 
@@ -132,11 +128,11 @@ def method_missing(method, *args)
                 puts("jump")
                 target = method.to_s[2..]
                 saved_counter = Cmd.back_j_table_get(target)
-                puts("saved_counter: #{saved_counter == Cmd::HASH_NOT_FOUND}")
+                puts("back jump saved_counter: #{saved_counter}")
 
                 #back jump
                 if saved_counter != Cmd::HASH_NOT_FOUND 
-                    return (Cmd.instr_counter) 
+                    return (saved_counter) 
                 #forward jump
                 else 
                     Cmd.forward_j_table_set(target, Cmd.instr_counter)
@@ -289,11 +285,9 @@ def syscall
     Cmd.instr_counter_incr
 end
   
-def j(distance)
-    index = distance
-    index &= (2**31 - 1 - 3)
-    index &= (2**28 - 1)
-    Cmd.set_last((index >> 2), Cmd::LAST_26_MASK)
+def j(index)
+    # puts("jump: index: #{index}")
+    Cmd.set_last(index, Cmd::LAST_26_MASK)
     Cmd.set_code(0b00110000)
     Cmd.emit
     Cmd.instr_counter_incr
