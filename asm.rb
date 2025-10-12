@@ -42,7 +42,6 @@ module Cmd
         def set_forward_j(index)
             set_last(index, LAST_26_MASK)
             set_code(0b00110000)
-            reset_instr
         end
         #---------------------------------
 
@@ -111,11 +110,14 @@ def method_missing(method, *args)
                 if saved_counter != Cmd::HASH_NOT_FOUND
 
                     #TODO: вынести логику патчинга файла в метод класса     
-                    cur_pos = Cmd.file.seek(0, :CUR) #save pos in file
-                    Cmd.file.seek((saved_counter - 1) * 4, :SET)  
-                    Cmd.set_forward_j(saved_counter) 
+                    cur_pos = Cmd.file.pos #save pos in file
+                    # puts("cur_pos: #{cur_pos}")
+                    Cmd.file.pos = (saved_counter) * 4
+                    # puts("instr counter to patch: #{Cmd.instr_counter}")
+                    Cmd.set_forward_j(Cmd.instr_counter) 
+                    # puts("instr: #{Cmd.instr}")
                     Cmd.file.write([Cmd.instr].pack("L<"))    
-                    Cmd.file.seek(cur_pos, :SET) #return pos in file
+                    Cmd.file.pos = cur_pos #return pos in file
                     
                 #back jump
                 else
@@ -141,14 +143,9 @@ def method_missing(method, *args)
             end
         elsif method.to_s == 'to_int'
             super
-        elsif method.to_s == 'to_hash'
-            super
         else 
             abort("wrong register/label name")
         end 
-    elsif method.to_s == '[]'
-    elsif method.to_s == '[]='
-    elsif method.to_s == '+'
     else
         # super
         abort("wrong syntax")
