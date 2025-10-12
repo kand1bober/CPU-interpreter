@@ -12,16 +12,16 @@ module Cmd
     HASH_NOT_FOUND = -1
   
     class << self #open singltone class for this module
-        attr_accessor :instr, :file, :instr_counter
+        attr_accessor :instr, :file, :instr_counter, :forward_j_hash, :back_j_hash
+
+        @forward_j_hash = {}
+        @back_j_hash = {}
 
         #---------- Jump work ------------
-        @instr_counter = 0
         def instr_counter_incr
             @instr_counter += 1
         end
 
-        #key = target_name, val = instr_counter, when forward jump was met
-        @forward_j_hash = Hash.new(Cmd::HASH_NOT_FOUND)
         def forward_j_table_get(key)
             @forward_j_hash[key]
         end
@@ -29,19 +29,18 @@ module Cmd
         def forward_j_table_set(key, val)
             @forward_j_hash[key] = val
         end
-        
-        @back_j_hash = Hash.new(Cmd::HASH_NOT_FOUND)
-        #key = target_name, instr_counter, when back jump was met
+
         def back_j_table_get(key)
             @back_j_hash[key]
         end
 
         def back_j_table_set(key, val)
+            # puts("CLASS: instr_counter: #{@instr_counter}")
             @back_j_hash[key] = val
         end
         
         def set_forward_j(distance)
-            index = distance * 4
+            index = distance
             index &= (2**31 - 1 - 3)
             index &= (2**28 - 1)
             set_last((index >> 2), LAST_26_MASK)
@@ -106,34 +105,38 @@ def method_missing(method, *args)
         elsif method.to_s.start_with?("l_")
             #jump label met
             if method.to_s[-1] == '!' 
-                puts("  label")
+                puts("label")
                 target = method.to_s[2..-2]
                 saved_counter = Cmd.forward_j_table_get(target)
+                puts("hash_table == nil: #{Cmd.forward_j_hash == nil}")
+                puts("saved_counter: #{saved_counter}")
 
                 #forward jump
-                if saved_counter != nil
+                if saved_counter != Cmd::HASH_NOT_FOUND
 
                     #TODO: вынести логику патчинга файла в метод класса     
-                    cur_pos = Cmd.file.seek(0, :CUR) #save position in file
+                    cur_pos = Cmd.file.seek(0, :CUR) #save pos in file
                     Cmd.file.seek((saved_counter - 1) * 4, :SET)  
-                    set_forward_j(Cmd.instr_counter - saved_counter) 
+                    Cmd.set_forward_j(saved_counter) 
                     Cmd.file.write([Cmd.instr].pack("L<"))    
                     Cmd.file.seek(cur_pos, :SET) #return pos in file
                     
                 #back jump
                 else
+                    puts("instr_counter: #{Cmd.instr_counter}")
                     Cmd.back_j_table_set(target, Cmd.instr_counter)
                 end
                 
             #jump instr met
             else 
-                puts("  jump")
+                puts("jump")
                 target = method.to_s[2..]
                 saved_counter = Cmd.back_j_table_get(target)
-                
+                puts("saved_counter: #{saved_counter == Cmd::HASH_NOT_FOUND}")
+
                 #back jump
-                if saved_counter != nil 
-                    return (Cmd.instr_counter - saved_counter) 
+                if saved_counter != Cmd::HASH_NOT_FOUND 
+                    return (Cmd.instr_counter) 
                 #forward jump
                 else 
                     Cmd.forward_j_table_set(target, Cmd.instr_counter)
@@ -150,7 +153,7 @@ def method_missing(method, *args)
     elsif method.to_s == '[]'
     elsif method.to_s == '[]='
     elsif method.to_s == '+'
-    else 
+    else
         # super
         abort("wrong syntax")
     end
@@ -161,8 +164,15 @@ end
 def init_cmd(filename)
     Cmd.file = File.open(filename, "wb")
     Cmd.reset_instr
+    Cmd.instr_counter = 0
+
+    #key = target_name, val = instr_counter, when forward jump was met
+    Cmd.forward_j_hash = Hash.new(Cmd::HASH_NOT_FOUND)
+    
+    #key = target_name, instr_counter, when back jump was met
+    Cmd.back_j_hash = Hash.new(Cmd::HASH_NOT_FOUND)
 end
-  
+
 def close_cmd
     Cmd.file&.close
 end
@@ -280,12 +290,13 @@ def syscall
 end
   
 def j(distance)
-    index = distance * 4
+    index = distance
     index &= (2**31 - 1 - 3)
     index &= (2**28 - 1)
     Cmd.set_last((index >> 2), Cmd::LAST_26_MASK)
     Cmd.set_code(0b00110000)
     Cmd.emit
+    Cmd.instr_counter_incr
 end
   
 def usat(rd, rs, imm5)

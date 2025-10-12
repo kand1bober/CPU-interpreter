@@ -110,7 +110,7 @@ void do_kSt(CpuState* cpu_state, uint8_t base, uint8_t rt, int16_t offset)
 
     Register* regs = cpu_state->gpr_regs;
 
-    printf("val: %d, addr: %d\n", regs[rt], regs[base] + (Register)offset);
+    // printf("val: %d, addr: %d\n", regs[rt], regs[base] + (Register)offset);
 
     write_to_mem(cpu_state, regs[base] + (Register)offset, regs[rt]);
 }
@@ -122,7 +122,7 @@ void do_kSsat(CpuState* cpu_state, uint8_t rd, uint8_t rs, int16_t imm5)
     Register max_val = (Register)pow(2, imm5 - 1) - 1, 
              min_val = (Register)(-pow(2, imm5 - 1)); 
 
-    printf("SSAT MAX VAL: %d, MIN: %d\n", max_val, min_val);
+    // printf("SSAT MAX VAL: %d, MIN: %d\n", max_val, min_val);
 
     if (regs[rs] > max_val)
     {
@@ -159,7 +159,7 @@ void do_kBeq(CpuState* cpu_state, uint8_t rs, uint8_t rt, int16_t offset)
 
     if (regs[rs] == regs[rt])
     {
-        printf("=== JUMP ===\n");
+        // printf("=== JUMP ===\n");
         cpu_state->pc += target;
     }
 }
@@ -177,6 +177,7 @@ void do_kLd(CpuState* cpu_state, uint8_t base, uint8_t rt, int16_t offset)
 
 void do_kJ(CpuState* cpu_state, int32_t index)
 {
+    printf("JUMP TO POS: %d\n", index);
     cpu_state->pc = ((Register)index << 2) | ((cpu_state->pc >> 28) << 28);
 }
 
@@ -185,7 +186,7 @@ void do_kUsat(CpuState* cpu_state, uint8_t rd, uint8_t rs, uint8_t imm5)
 {
     Register* regs = cpu_state->gpr_regs;
     Register max_val = (Register)pow(2, imm5) - 1; 
-    printf("USAT MAX VAL: %d\n", max_val);
+    // printf("USAT MAX VAL: %d\n", max_val);
 
     if (regs[rs] > max_val)
     {

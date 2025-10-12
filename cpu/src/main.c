@@ -10,17 +10,11 @@ int main()
     //start interpreter
     CpuState cpu_state = {.status = kGood, .pc = 0, .memory.capacity = 0};
     uint32_t curr_cmd = 0;
-
-    //------- TEST -------------
-    cpu_state.gpr_regs[0] = 0;
-    cpu_state.gpr_regs[1] = 753;
-    cpu_state.gpr_regs[2] = 8;
-    cpu_state.gpr_regs[3] = 0;
+    for (int i = 0; i < kNumRegs; i++)
+    {
+        cpu_state.gpr_regs[i] = 0;
+    }
     
-    cpu_state.gpr_regs[8] = 1;
-    cpu_state.gpr_regs[9] = 0;
-    //--------------------------
-
     while (1)
     {
         fetch(&cpu_state, &code, &curr_cmd);

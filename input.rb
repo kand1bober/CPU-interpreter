@@ -2,14 +2,16 @@ require_relative("asm.rb") #adding file with module
 init_cmd("common/cmd_bin.txt")
 
 #-------- Code ----------
-l_am!
-add x1 , x2, x3
 
-j l_am
-j l_bm
+slti x2, x0, 1 #init first value of fibonachi
 
-l_bm!   
-st x1, -8.(x2)
+l_cycle!
+add x3, x1, x2
+st x2, 0.(x0)
+st x3, 4.(x0)
+ldp x1, x2, 0.(x0)
+
+j l_cycle
 
 #------------------------
 
