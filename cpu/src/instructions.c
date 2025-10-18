@@ -57,15 +57,19 @@ void do_kSyscall(CpuState* cpu_state)
 
     switch(cpu_state->gpr_regs[8])
     {
-        case 0:
+        case kSysRead: 
         {
             scanf("%d", &regs[0]);
             break;
         }
-        case 1:
+        case kSysWrite:
         {
             printf("%d\n", regs[0]);
             break;
+        }
+        case kSysExit:
+        {
+            exit(0);
         }
         default:
         {   
@@ -100,11 +104,11 @@ void do_kSlti(CpuState* cpu_state, uint8_t rs, uint8_t rt, int16_t imm)
 {
     Register* regs = cpu_state->gpr_regs;
 
-    regs[rt] = (Register)(regs[rs] < (Register)imm);
+    regs[rt] = (regs[rs] < sign_extend(imm));
 }
 
 
-void do_kSt(CpuState* cpu_state, uint8_t base, uint8_t rt, int16_t offset)
+void do_kSt(CpuState* cpu_state, Memory* memory, uint8_t base, uint8_t rt, int16_t offset)
 {
     EXEC_ASSERT((offset & 3) == 0, "align") //check allignment
 
@@ -112,7 +116,7 @@ void do_kSt(CpuState* cpu_state, uint8_t base, uint8_t rt, int16_t offset)
 
     // printf("val: %d, addr: %d\n", regs[rt], regs[base] + (Register)offset);
 
-    write_to_mem(cpu_state, regs[base] + (Register)offset, regs[rt]);
+    write_to_mem(memory, regs[base] + sign_extend(offset), regs[rt]);
 }
 
 
@@ -140,22 +144,22 @@ void do_kSsat(CpuState* cpu_state, uint8_t rd, uint8_t rs, int16_t imm5)
 
 
 //offset = 10-bit number
-void do_kLdp(CpuState* cpu_state, uint8_t base, uint8_t rt1, uint8_t rt2, int16_t offset)
+void do_kLdp(CpuState* cpu_state, Memory* memory, uint8_t base, uint8_t rt1, uint8_t rt2, int16_t offset)
 {
     EXEC_ASSERT((offset & 3) == 0, "align") //check allignment
 
     Register* regs = cpu_state->gpr_regs;
-    Register addr = regs[base] + (Register)offset;
+    Register addr = regs[base] + sign_extend(offset);
 
-    regs[rt1] = read_from_mem(cpu_state, addr);
-    regs[rt2] = read_from_mem(cpu_state, addr + 4);
+    regs[rt1] = read_from_mem(memory, addr);
+    regs[rt2] = read_from_mem(memory, addr + 4);
 }
 
 
 void do_kBeq(CpuState* cpu_state, uint8_t rs, uint8_t rt, int16_t offset)
 {
     Register* regs = cpu_state->gpr_regs;
-    Register target = ((Register)(offset) << 2);
+    Register target = (sign_extend(offset) << 2);
 
     if (regs[rs] == regs[rt])
     {
@@ -165,13 +169,13 @@ void do_kBeq(CpuState* cpu_state, uint8_t rs, uint8_t rt, int16_t offset)
 }
 
 
-void do_kLd(CpuState* cpu_state, uint8_t base, uint8_t rt, int16_t offset)
+void do_kLd(CpuState* cpu_state, Memory* memory, uint8_t base, uint8_t rt, int16_t offset)
 {
     EXEC_ASSERT((offset & 3) == 0, "align") //check allignment
 
     Register* regs = cpu_state->gpr_regs;
 
-    regs[rt] = read_from_mem(cpu_state, regs[base] + (Register)offset);
+    regs[rt] = read_from_mem(memory, regs[base] + sign_extend(offset));
 }
 
 
@@ -196,4 +200,10 @@ void do_kUsat(CpuState* cpu_state, uint8_t rd, uint8_t rs, uint8_t imm5)
     {
         regs[rd] = regs[rs];
     }
+}
+
+
+Register sign_extend(int32_t val)
+{
+    return (Register)val;
 }

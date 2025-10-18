@@ -1,5 +1,5 @@
 require_relative("asm.rb") #adding file with module
-init_cmd("common/cmd_bin.txt")
+init_cmd("executables/fib")
 
 #-------- Code ----------
 #x4 plays a role of constant zero

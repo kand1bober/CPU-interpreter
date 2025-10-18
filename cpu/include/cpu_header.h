@@ -18,13 +18,11 @@
 #endif
 
 
-static const char* kCmdBinFilename = "common/cmd_bin.txt";
-
-
 typedef enum 
 {
     kGood,
     kInputEnd,
+    kStopped,
 } CpuInfo;
 
 
@@ -45,14 +43,14 @@ typedef struct
     CpuInfo status;
     Register gpr_regs[kNumRegs];
     Register pc;
-    Memory memory;
 } CpuState;
 
 
 void fetch(CpuState* cpu_state, BufInfo* input, uint32_t* curr_cmd);
-void decode_exec(CpuState* cpu_state, uint32_t curr_cmd);
-void write_to_mem(CpuState* cpu_state, Register addr, Register val);
-Register read_from_mem(CpuState* cpu_state, Register addr);
+void decode_exec(CpuState* cpu_state, Memory* memory, uint32_t curr_cmd);
+void advance_pc(CpuState* cpu_state, uint32_t curr_cmd);
+void write_to_mem(Memory* memory, Register addr, Register val);
+Register read_from_mem(Memory* memory, Register addr);
 
 
 #define CPU_DUMP(cpu_state) \
@@ -79,22 +77,22 @@ Register read_from_mem(CpuState* cpu_state, Register addr);
         "last15: %d\n"\
         "last25: %d\n"\
         "=============\n\n",\
-        GET_TYPE(curr_cmd),\
-        GET_FUNC(curr_cmd),\
-        GET_ARG_1(curr_cmd),\
-        GET_ARG_2(curr_cmd),\
-        GET_ARG_3(curr_cmd),\
-        GET_LAST_11(curr_cmd),\
-        GET_LAST_16(curr_cmd),\
-        GET_LAST_26(curr_cmd));
+        TYPE(curr_cmd),\
+        FUNC(curr_cmd),\
+        ARG_1(curr_cmd),\
+        ARG_2(curr_cmd),\
+        ARG_3(curr_cmd),\
+        LAST_11(curr_cmd),\
+        LAST_16(curr_cmd),\
+        LAST_26(curr_cmd));
 
 #define MEM_DUMP \
     { \
         printf("Memory:\n"); \
         size_t reg_size = sizeof(Register); \
-        for (int i = 0; (i * reg_size) < cpu_state->memory.capacity; i++) \
+        for (int i = 0; (i * reg_size) < memory->capacity; i++) \
         { \
-            printf("%-3d: %-4d\n", i, *(Register*)(cpu_state->memory.data + i * reg_size)); \
+            printf("%-3d: %-4d\n", i, *(Register*)(memory->data + i * reg_size)); \
             printf("\n"); \
         } \
         printf("\n"); \
