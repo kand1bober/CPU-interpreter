@@ -9,33 +9,11 @@
 #define INSTRUCTIONS_HEADER
 
 typedef enum
-{   
-    //High type
-    kHighType = 0,
-    kAdd = 24,
-    kOr = 16,
-    kBext = 15,
-    kSub = 25,
-    kSyscall = 21,
-    kClz = 28,
-
-    //Other
-    kSlti = 61,
-    kSt = 56,
-    kSsat = 63,    
-    kLdp = 53,
-    kBeq = 22,
-    kLd = 62,
-    kJ = 48,
-    kUsat = 34,
-} Opcodes;
-
-typedef enum
 {
     kSysRead = 0,
     kSysWrite,
     kSysExit, 
-} SyscallNums;
+} SyscallNum;
 
 void do_kAdd(CpuState* cpu_state, uint8_t rd, uint8_t rs, uint8_t rt);
 void do_kSub(CpuState* cpu_state, uint8_t rd, uint8_t rs, uint8_t rt);

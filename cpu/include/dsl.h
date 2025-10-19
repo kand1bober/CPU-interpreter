@@ -31,6 +31,23 @@ case(code): \
     break; \
 }\
 
+
+#define DECODE_CASE(instr_type, expr) \
+case(instr_type): \
+{ \
+    expr \
+    break; \
+}\
+
+
+#define EXECUTE_CASE(code, ...) \
+case(code): \
+{ \
+    do_##code(__VA_ARGS__); \
+    break; \
+}\
+
+
 #define CPU_DUMP(cpu_state) \
     printf("Registers:\n"\
            "pc: %-2d\n", cpu_state->pc);\

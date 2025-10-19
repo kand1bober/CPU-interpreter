@@ -25,11 +25,14 @@ int main(int argc, char* argv[])
         cpu_state.gpr_regs[i] = 0;
     }
 
+    DecodedResult decoded;
     while (1)
     {
         fetch(&cpu_state, &code, &curr_cmd);
 
-        decode_exec(&cpu_state, &memory, curr_cmd);
+        decode(&cpu_state, curr_cmd, &decoded);
+
+        execute(&cpu_state, &memory, &decoded);
 
         advance_pc(&cpu_state, curr_cmd);
     }

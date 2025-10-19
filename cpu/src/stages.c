@@ -12,29 +12,45 @@ void fetch(CpuState* cpu_state, BufInfo* code, uint32_t* curr_cmd)
 }
 
 
-void decode_exec(CpuState* cpu_state, Memory* memory, uint32_t curr_cmd)
+#define OP(num, arg) decoded->operands[num] = arg;
+void decode(CpuState* cpu_state, uint32_t curr_cmd, DecodedResult* decoded)
 {
     DEB(CMD_DUMP(curr_cmd))
     DEB(CPU_DUMP(cpu_state))    
     DEB(MEM_DUMP)
 
-    switch (TYPE(curr_cmd))
+    Opcode opcode = TYPE(curr_cmd); 
+    decoded->opcode = opcode;
+
+    switch (opcode)
     {
         case kHighType:
         {
-            switch(FUNC(curr_cmd))
+            Opcode high_type_opcode = FUNC(curr_cmd);
+            decoded->opcode = high_type_opcode;
+
+            switch (high_type_opcode)
             {
-                CMD_CASE(kAdd, cpu_state, ARG_3(curr_cmd), ARG_1(curr_cmd), ARG_2(curr_cmd))
+                DECODE_CASE(kAdd, OP(0, ARG_3(curr_cmd)) 
+                                  OP(1, ARG_1(curr_cmd))
+                                  OP(2, ARG_2(curr_cmd)))
+                
+                DECODE_CASE(kSub, OP(0, ARG_3(curr_cmd)) 
+                                  OP(1, ARG_1(curr_cmd))
+                                  OP(2, ARG_2(curr_cmd)))
+                                
+                DECODE_CASE(kOr,  OP(0, ARG_3(curr_cmd)) 
+                                  OP(1, ARG_1(curr_cmd))
+                                  OP(2, ARG_2(curr_cmd)))
 
-                CMD_CASE(kSub, cpu_state, ARG_3(curr_cmd), ARG_1(curr_cmd), ARG_2(curr_cmd))
+                DECODE_CASE(kBext, OP(0, ARG_1(curr_cmd)) 
+                                   OP(1, ARG_2(curr_cmd))
+                                   OP(2, ARG_3(curr_cmd)))
 
-                CMD_CASE(kOr, cpu_state, ARG_3(curr_cmd), ARG_1(curr_cmd), ARG_2(curr_cmd))
+                DECODE_CASE(kSyscall, ;)
 
-                CMD_CASE(kBext, cpu_state, ARG_1(curr_cmd), ARG_2(curr_cmd), ARG_3(curr_cmd))
-
-                CMD_CASE(kSyscall, cpu_state)
-
-                CMD_CASE(kClz, cpu_state, ARG_1(curr_cmd), ARG_2(curr_cmd))
+                DECODE_CASE(kClz, OP(0, ARG_1(curr_cmd)) 
+                                  OP(1, ARG_2(curr_cmd)))
 
                 default:{
                     break;
@@ -43,32 +59,86 @@ void decode_exec(CpuState* cpu_state, Memory* memory, uint32_t curr_cmd)
 
             break;
         }
+        
+        DECODE_CASE(kSlti, OP(0, ARG_1(curr_cmd))
+                           OP(1, ARG_2(curr_cmd))
+                           OP(2, LAST_16(curr_cmd)))
 
-        CMD_CASE(kSlti, cpu_state, ARG_1(curr_cmd), ARG_2(curr_cmd), LAST_16(curr_cmd))
+        DECODE_CASE(kSt, OP(0, ARG_1(curr_cmd))
+                         OP(1, ARG_2(curr_cmd))
+                         OP(2, LAST_16(curr_cmd)))
 
-        CMD_CASE(kSt, cpu_state, memory, ARG_1(curr_cmd), ARG_2(curr_cmd), LAST_16(curr_cmd))
+        DECODE_CASE(kSsat, OP(0, ARG_1(curr_cmd))
+                           OP(1, ARG_2(curr_cmd))
+                           OP(2, ARG_3(curr_cmd)))
 
-        CMD_CASE(kSsat, cpu_state, ARG_1(curr_cmd), ARG_2(curr_cmd), ARG_3(curr_cmd))
+        DECODE_CASE(kLdp, OP(0, ARG_1(curr_cmd))
+                          OP(1, ARG_2(curr_cmd))
+                          OP(2, ARG_3(curr_cmd))
+                          OP(3, LAST_11(curr_cmd)))
 
-        CMD_CASE(kLdp, cpu_state, memory, ARG_1(curr_cmd), ARG_2(curr_cmd), ARG_3(curr_cmd), LAST_11(curr_cmd))
+        DECODE_CASE(kBeq, OP(0, ARG_1(curr_cmd))
+                          OP(1, ARG_2(curr_cmd))
+                          OP(2, LAST_16(curr_cmd)))
 
-        CMD_CASE(kBeq, cpu_state, ARG_1(curr_cmd), ARG_2(curr_cmd), LAST_16(curr_cmd))
+        DECODE_CASE(kLd, OP(0, ARG_1(curr_cmd))
+                         OP(1, ARG_2(curr_cmd))
+                         OP(2, LAST_16(curr_cmd)))
 
-        CMD_CASE(kLd, cpu_state, memory, ARG_1(curr_cmd), ARG_2(curr_cmd), LAST_16(curr_cmd))
+        DECODE_CASE(kJ, OP(0, LAST_26(curr_cmd)))
 
-        CMD_CASE(kJ, cpu_state, LAST_26(curr_cmd))
-
-        CMD_CASE(kUsat, cpu_state, ARG_1(curr_cmd), ARG_2(curr_cmd), ARG_3(curr_cmd))
+        DECODE_CASE(kUsat, OP(0, ARG_1(curr_cmd))
+                           OP(1, ARG_2(curr_cmd))
+                           OP(2, ARG_3(curr_cmd)))
 
         default:{
             break;
         }
     }
+}
+#undef OP
 
-    DEB(CMD_DUMP(curr_cmd))
+
+#define OP(num) instr->operands[num]
+void execute(CpuState* cpu_state, Memory* memory, DecodedResult* instr)
+{
+    switch (instr->opcode)
+    {
+        EXECUTE_CASE(kAdd, cpu_state, OP(0), OP(1), OP(2))
+
+        EXECUTE_CASE(kSub, cpu_state, OP(0), OP(1), OP(2))
+
+        EXECUTE_CASE(kOr, cpu_state, OP(0), OP(1), OP(2))
+
+        EXECUTE_CASE(kBext, cpu_state, OP(0), OP(1), OP(2))
+
+        EXECUTE_CASE(kSyscall, cpu_state)
+
+        EXECUTE_CASE(kClz, cpu_state, OP(0), OP(1))
+
+        EXECUTE_CASE(kSlti, cpu_state, OP(0), OP(1), OP(2))
+
+        EXECUTE_CASE(kSt, cpu_state, memory, OP(0), OP(1), OP(2))
+
+        EXECUTE_CASE(kSsat, cpu_state, OP(0), OP(1), OP(2))
+
+        EXECUTE_CASE(kLdp, cpu_state, memory, OP(0), OP(1), OP(2), OP(3))
+
+        EXECUTE_CASE(kBeq, cpu_state, OP(0), OP(1), OP(2))
+
+        EXECUTE_CASE(kLd, cpu_state, memory, OP(0), OP(1), OP(2))
+
+        EXECUTE_CASE(kJ, cpu_state, OP(0))
+
+        EXECUTE_CASE(kUsat, cpu_state, OP(0), OP(1), OP(2))
+
+        default: {break;}
+    }
+
     DEB(CPU_DUMP(cpu_state))    
     DEB(MEM_DUMP)
 }
+#undef OP
 
 
 void advance_pc(CpuState* cpu_state, uint32_t curr_cmd)
@@ -136,7 +206,7 @@ void write_to_mem(Memory* memory, Register addr, Register val)
     }
 
     memcpy(memory->data + addr, &val, sizeof(Register));
-}   
+}
 
 
 Register read_from_mem(Memory* memory, Register addr)
