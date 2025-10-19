@@ -23,7 +23,10 @@ j l_cycle
 
 slti x8, x4, 1 #set x0 to 1, to make write syscall
 ld x0, 4.(x4)
-syscall
+syscall #output result
+
+add x8, x8, x8
+syscall #exit
 #------------------------
 
 close_cmd

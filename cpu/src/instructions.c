@@ -163,7 +163,6 @@ void do_kBeq(CpuState* cpu_state, uint8_t rs, uint8_t rt, int16_t offset)
 
     if (regs[rs] == regs[rt])
     {
-        // printf("=== JUMP ===\n");
         cpu_state->pc += target;
     }
 }

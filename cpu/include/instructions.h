@@ -3,29 +3,10 @@
 #include <math.h>
 
 #include "cpu_header.h"
+#include "stages.h"
 
 #ifndef INSTRUCTIONS_HEADER
 #define INSTRUCTIONS_HEADER
-
-#define TYPE_MASK 0b0111111 //6 bits == 1
-#define TYPE_SHIFT 26 
-#define TYPE(cmd) (((cmd) >> TYPE_SHIFT) & TYPE_MASK) 
-
-#define OPERAND_MASK 31 //5 bits == 1 
-#define ARG_1_SHIFT 21 
-#define ARG_2_SHIFT 16 
-#define ARG_3_SHIFT 11
-#define ARG_1(cmd) (((cmd) >> ARG_1_SHIFT) & OPERAND_MASK)  
-#define ARG_2(cmd) (((cmd) >> ARG_2_SHIFT) & OPERAND_MASK)  
-#define ARG_3(cmd) (((cmd) >> ARG_3_SHIFT) & OPERAND_MASK)  
-
-#define LAST_11(cmd) ((cmd) & 2047) //11 bits == 1
-#define LAST_16(cmd) ((cmd) & 65535) //16 bits == 1  
-#define LAST_26(cmd) ((cmd) & 67108863) //26 bits == 1
-
-//for R-type
-#define FUNC_MASK 31 //5 bits == 1
-#define FUNC(cmd) ((cmd) & FUNC_MASK)
 
 typedef enum
 {   

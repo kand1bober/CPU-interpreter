@@ -157,7 +157,7 @@ def method_missing(method, *args)
 end
 
 #------ Callable methods (top-level) ------
-  
+
 def init_cmd(filename)
     Cmd.file = File.open(filename, "wb")
     Cmd.reset_instr
@@ -261,7 +261,7 @@ end
 def beq(rs, rt, offset)
     Cmd.set_arg(1, rs)
     Cmd.set_arg(2, rt)
-    Cmd.set_last(offset + 1, Cmd::LAST_16_MASK)
+    Cmd.set_last(offset, Cmd::LAST_16_MASK)
     Cmd.set_code(0b00010110)
     Cmd.emit
     Cmd.instr_counter_incr
