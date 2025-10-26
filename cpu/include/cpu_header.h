@@ -22,8 +22,12 @@
 typedef enum 
 {
     kGood,
-    kInputEnd,
     kStopped,
+
+    kInputEnd,
+
+    kBaseBlockFound,
+    kBaseBlockNotFound,
 } CpuInfo;
 
 

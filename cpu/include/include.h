@@ -5,5 +5,6 @@
 #include "dsl.h"
 #include "instructions.h"
 #include "stages.h"
+#include "arr_work.h"
 
 #endif
