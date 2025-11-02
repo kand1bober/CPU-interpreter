@@ -4,6 +4,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include <vector>
+
 #include "../../utilities/file_work.hpp"
 #include "dsl.hpp"
 

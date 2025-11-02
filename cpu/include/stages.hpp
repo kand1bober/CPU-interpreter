@@ -36,7 +36,7 @@ typedef struct
 
 void fetch(CpuState* cpu_state, BufInfo* input, uint32_t* curr_cmd);
 void decode(CpuState* cpu_state, uint32_t curr_cmd, DecodedResult* decoded);
-void execute(CpuState* cpu_state, Memory* memory, DecodedResult* instr_arr, int instr_num);
+void execute(CpuState* cpu_state, Memory* memory, std::vector<DecodedResult>& instr_arr, int instr_num);
 void advance_pc(CpuState* cpu_state, uint32_t curr_cmd);
 void write_to_mem(Memory* memory, Register addr, Register val);
 Register read_from_mem(Memory* memory, Register addr);

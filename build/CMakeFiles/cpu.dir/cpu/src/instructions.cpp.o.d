@@ -113,7 +113,29 @@ CMakeFiles/cpu.dir/cpu/src/instructions.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h /usr/include/string.h \
  /usr/include/strings.h /usr/include/c++/13/stdlib.h \
- /usr/include/c++/13/cstdlib \
+ /usr/include/c++/13/cstdlib /usr/include/c++/13/vector \
+ /usr/include/c++/13/bits/allocator.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/c++allocator.h \
+ /usr/include/c++/13/bits/new_allocator.h /usr/include/c++/13/new \
+ /usr/include/c++/13/bits/exception.h \
+ /usr/include/c++/13/bits/memoryfwd.h \
+ /usr/include/c++/13/bits/stl_construct.h \
+ /usr/include/c++/13/bits/stl_uninitialized.h \
+ /usr/include/c++/13/ext/alloc_traits.h \
+ /usr/include/c++/13/bits/alloc_traits.h \
+ /usr/include/c++/13/bits/stl_vector.h \
+ /usr/include/c++/13/initializer_list \
+ /usr/include/c++/13/bits/stl_bvector.h \
+ /usr/include/c++/13/bits/functional_hash.h \
+ /usr/include/c++/13/bits/hash_bytes.h /usr/include/c++/13/bits/refwrap.h \
+ /usr/include/c++/13/bits/invoke.h \
+ /usr/include/c++/13/bits/stl_function.h \
+ /usr/include/c++/13/backward/binders.h \
+ /usr/include/c++/13/bits/range_access.h \
+ /usr/include/c++/13/bits/vector.tcc \
+ /usr/include/c++/13/bits/memory_resource.h /usr/include/c++/13/cstddef \
+ /usr/include/c++/13/bits/uses_allocator.h \
+ /usr/include/c++/13/bits/uses_allocator_args.h /usr/include/c++/13/tuple \
  /home/vyacheslav/CPU-Interpreter/cpu/src/../include/../../utilities/file_work.hpp \
  /usr/include/x86_64-linux-gnu/sys/stat.h \
  /usr/include/x86_64-linux-gnu/bits/stat.h \

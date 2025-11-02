@@ -99,7 +99,7 @@ void decode(CpuState* cpu_state, uint32_t curr_cmd, DecodedResult* decoded)
 
 
 #define OP(num) instr->operands[num]
-void execute(CpuState* cpu_state, Memory* memory, DecodedResult* instr_arr, int instr_num)
+void execute(CpuState* cpu_state, Memory* memory, std::vector<DecodedResult>& instr_arr, int instr_num)
 {
     DecodedResult* instr;
     for (int i = 0; i < instr_num; i++)

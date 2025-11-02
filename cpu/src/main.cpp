@@ -24,37 +24,36 @@ int main(int argc, char* argv[])
     {
         cpu_state.gpr_regs[i] = 0;
     }
-    BlockArr block_arr = {.arr_sz = 0, .arr = NULL};
+    BlockTable block_table;
 
     //start interpreter
     while (1)
     {
         fetch(&cpu_state, &code, &curr_cmd);
 
-        process_cmd(&cpu_state, &memory, curr_cmd, &block_arr);
+        process_cmd(&cpu_state, &memory, curr_cmd, block_table);
     }
 
     //close interpreter
     free(code.buf);
     free(memory.data);
-    free_block_arr(&block_arr);
     return 0;
 }
 
 
-void process_cmd(CpuState* cpu_state, Memory* memory, uint32_t curr_cmd, BlockArr* block_arr)
+void process_cmd(CpuState* cpu_state, Memory* memory, uint32_t curr_cmd, BlockTable& block_table)
 {
     static BaseBlock* curr_block = NULL; //currently builded block
     static BaseBlockState block_state = kNotBuilding;
     DecodedResult decoded;
 
     BaseBlock* to_execute = NULL;
-    cpu_state->status = find_block(cpu_state->pc, block_arr, &to_execute); 
+    cpu_state->status = block_table.lookup_block(cpu_state->pc, &to_execute); 
     if (cpu_state->status == kBaseBlockFound)
     {
-        // printf("execute ready block\n");
-        execute(cpu_state, memory, to_execute->instr_arr, to_execute->sz);
-        cpu_state->pc = to_execute->pc_end;
+        printf("execute ready block\n");
+        execute(cpu_state, memory, to_execute->instr_arr_, to_execute->sz_);
+        cpu_state->pc = to_execute->pc_end_;
         return;
     }   
 
@@ -62,19 +61,21 @@ void process_cmd(CpuState* cpu_state, Memory* memory, uint32_t curr_cmd, BlockAr
 
     if (decoded.opcode == kJ || decoded.opcode == kBeq)
     {
+        // printf("    jump op\n");
         switch (block_state)
         {
             case kBuilding: //fall through
             {
-                // printf("    add instr to curr block\n");
-                // printf("end block\n");
-                add_instr_to_block(curr_block, &decoded);
-                end_block(cpu_state->pc, curr_block);
+                printf("    add instr to curr block\n");
+                printf("end block\n");
+                curr_block->add_instr(decoded);
+                curr_block->end_block(cpu_state->pc);
                 block_state = kNotBuilding;
             }
             case kNotBuilding:
             {
-                execute(cpu_state, memory, &decoded, 1);
+                std::vector<DecodedResult> decoded_vector{decoded};
+                execute(cpu_state, memory, decoded_vector, 1);
                 advance_pc(cpu_state, curr_cmd);
                 break;
             }
@@ -87,19 +88,21 @@ void process_cmd(CpuState* cpu_state, Memory* memory, uint32_t curr_cmd, BlockAr
     }
     else
     {
+        // printf("    normal op\n");
         switch (block_state)
         {
             case kNotBuilding: //fall through
             {
-                // printf("start block\n");
-                curr_block = start_block(cpu_state->pc, block_arr);                            
+                printf("start block\n");
+                curr_block = block_table.start_block(cpu_state->pc);                            
                 block_state = kBuilding;
             }
             case kBuilding:
             {
-                // printf("    add instr to curr block\n");
-                add_instr_to_block(curr_block, &decoded);
-                execute(cpu_state, memory, &decoded, 1);
+                printf("    add instr to curr block\n");
+                curr_block->add_instr(decoded);
+                std::vector<DecodedResult> decoded_vector{decoded};
+                execute(cpu_state, memory, decoded_vector, 1);
                 advance_pc(cpu_state, curr_cmd);
                 break;
             }   
