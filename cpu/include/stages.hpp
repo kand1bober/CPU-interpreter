@@ -1,5 +1,5 @@
-#include "dsl.h"
-#include "cpu_header.h"
+#include "dsl.hpp"
+#include "cpu_header.hpp"
 
 #ifndef STAGES_HEADER
 #define STAGES_HEADER

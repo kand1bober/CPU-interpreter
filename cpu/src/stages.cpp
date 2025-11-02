@@ -1,4 +1,4 @@
-#include "../include/include.h"
+#include "../include/include.hpp"
 
 
 void fetch(CpuState* cpu_state, BufInfo* code, uint32_t* curr_cmd)
@@ -18,14 +18,14 @@ void decode(CpuState* cpu_state, uint32_t curr_cmd, DecodedResult* decoded)
     DEB(CMD_DUMP(curr_cmd))
     DEB(CPU_DUMP(cpu_state))    
 
-    Opcode opcode = TYPE(curr_cmd); 
+    Opcode opcode = (Opcode)TYPE(curr_cmd); 
     decoded->opcode = opcode;
 
     switch (opcode)
     {
         case kHighType:
         {
-            Opcode high_type_opcode = FUNC(curr_cmd);
+            Opcode high_type_opcode = (Opcode)FUNC(curr_cmd);
             decoded->opcode = high_type_opcode;
 
             switch (high_type_opcode)

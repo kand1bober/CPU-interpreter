@@ -1,4 +1,4 @@
-#include "../include/include.h"
+#include "../include/include.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -47,7 +47,6 @@ void process_cmd(CpuState* cpu_state, Memory* memory, uint32_t curr_cmd, BlockAr
     static BaseBlock* curr_block = NULL; //currently builded block
     static BaseBlockState block_state = kNotBuilding;
     DecodedResult decoded;
-    // DecodedResult* decoded_ptr = &decoded;
 
     BaseBlock* to_execute = NULL;
     cpu_state->status = find_block(cpu_state->pc, block_arr, &to_execute); 
@@ -63,19 +62,18 @@ void process_cmd(CpuState* cpu_state, Memory* memory, uint32_t curr_cmd, BlockAr
 
     if (decoded.opcode == kJ || decoded.opcode == kBeq)
     {
-        // printf("jump op\n");
         switch (block_state)
         {
             case kBuilding: //fall through
             {
-                // printf("    add instr to curr block & end block\n");
+                // printf("    add instr to curr block\n");
+                // printf("end block\n");
                 add_instr_to_block(curr_block, &decoded);
                 end_block(cpu_state->pc, curr_block);
                 block_state = kNotBuilding;
             }
             case kNotBuilding:
             {
-                // printf("    execute op\n");
                 execute(cpu_state, memory, &decoded, 1);
                 advance_pc(cpu_state, curr_cmd);
                 break;
@@ -89,12 +87,11 @@ void process_cmd(CpuState* cpu_state, Memory* memory, uint32_t curr_cmd, BlockAr
     }
     else
     {
-        // printf("normal op\n");
         switch (block_state)
         {
             case kNotBuilding: //fall through
             {
-                // printf("    start block\n");
+                // printf("start block\n");
                 curr_block = start_block(cpu_state->pc, block_arr);                            
                 block_state = kBuilding;
             }
@@ -102,7 +99,6 @@ void process_cmd(CpuState* cpu_state, Memory* memory, uint32_t curr_cmd, BlockAr
             {
                 // printf("    add instr to curr block\n");
                 add_instr_to_block(curr_block, &decoded);
-                // printf("    executed\n");
                 execute(cpu_state, memory, &decoded, 1);
                 advance_pc(cpu_state, curr_cmd);
                 break;

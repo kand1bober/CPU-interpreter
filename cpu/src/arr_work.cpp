@@ -1,4 +1,4 @@
-#include "../include/arr_work.h"
+#include "../include/arr_work.hpp"
 
 //---------------- Array of blocks Functions --------------
 

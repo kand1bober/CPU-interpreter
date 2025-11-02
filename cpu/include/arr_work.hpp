@@ -1,7 +1,7 @@
 #include <assert.h>
 
-#include "cpu_header.h"
-#include "stages.h"
+#include "cpu_header.hpp"
+#include "stages.hpp"
 
 #ifndef ARR_WORK_HEADER
 #define ARR_WORK_HEADER

@@ -1,7 +1,7 @@
 #ifndef DSL_HEADER
 #define DSL_HEADER
 
-#include "instructions.h"
+#include "instructions.hpp"
 
 #define TYPE_MASK 0b0111111 //6 bits == 1
 #define TYPE_SHIFT 26 

@@ -1,4 +1,4 @@
-#include "file_work.h"
+#include "file_work.hpp"
 
 void read_file(const char* filepath, BufInfo* buf_info)
 {
@@ -7,6 +7,7 @@ void read_file(const char* filepath, BufInfo* buf_info)
     if (file_info.fp == NULL)
     {
         perror("fopen");
+        printf("Tried to open: \"%s\"\n", filepath);
         exit(1);
     }
 

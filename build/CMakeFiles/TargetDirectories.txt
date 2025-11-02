@@ -1,0 +1,4 @@
+/home/vyacheslav/CPU-Interpreter/build/CMakeFiles/utilities_lib.dir
+/home/vyacheslav/CPU-Interpreter/build/CMakeFiles/cpu.dir
+/home/vyacheslav/CPU-Interpreter/build/CMakeFiles/edit_cache.dir
+/home/vyacheslav/CPU-Interpreter/build/CMakeFiles/rebuild_cache.dir

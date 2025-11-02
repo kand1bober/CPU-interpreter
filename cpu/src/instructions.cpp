@@ -1,4 +1,4 @@
-#include "../include/instructions.h"
+#include "../include/instructions.hpp"
 
 #define EXEC_ERROR   printf("error in execution\n" \
                             " :file: %s\n" \
@@ -114,8 +114,6 @@ void do_kSt(CpuState* cpu_state, Memory* memory, uint8_t base, uint8_t rt, int16
 
     Register* regs = cpu_state->gpr_regs;
 
-    // printf("val: %d, addr: %d\n", regs[rt], regs[base] + (Register)offset);
-
     write_to_mem(memory, regs[base] + sign_extend(offset), regs[rt]);
 }
 
@@ -123,8 +121,9 @@ void do_kSt(CpuState* cpu_state, Memory* memory, uint8_t base, uint8_t rt, int16
 void do_kSsat(CpuState* cpu_state, uint8_t rd, uint8_t rs, int16_t imm5)
 {
     Register* regs = cpu_state->gpr_regs;
-    Register max_val = (Register)pow(2, imm5 - 1) - 1, 
-             min_val = (Register)(-pow(2, imm5 - 1)); 
+
+    Register max_val = 2 << (imm5 - 1) - 1, 
+             min_val = -(2 << (imm5 - 1));
 
     // printf("SSAT MAX VAL: %d, MIN: %d\n", max_val, min_val);
 
@@ -188,7 +187,8 @@ void do_kJ(CpuState* cpu_state, int32_t index)
 void do_kUsat(CpuState* cpu_state, uint8_t rd, uint8_t rs, uint8_t imm5)
 {
     Register* regs = cpu_state->gpr_regs;
-    Register max_val = (Register)pow(2, imm5) - 1; 
+    Register max_val = 2 << (imm5 - 1); 
+
     // printf("USAT MAX VAL: %d\n", max_val);
 
     if (regs[rs] > max_val)

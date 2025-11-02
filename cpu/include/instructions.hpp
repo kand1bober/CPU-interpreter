@@ -2,8 +2,8 @@
 #include <sys/syscall.h>
 #include <math.h>
 
-#include "cpu_header.h"
-#include "stages.h"
+#include "cpu_header.hpp"
+#include "stages.hpp"
 
 #ifndef INSTRUCTIONS_HEADER
 #define INSTRUCTIONS_HEADER

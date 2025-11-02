@@ -4,8 +4,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "../../utilities/file_work.h"
-#include "dsl.h"
+#include "../../utilities/file_work.hpp"
+#include "dsl.hpp"
 
 #ifndef CPU_HEADER
 #define CPU_HEADER
@@ -40,7 +40,7 @@ typedef struct
 
 #define kNumRegs 32
 #define CMD_SIZE 4 
-typedef int32_t Register;
+typedef uint32_t Register;
 
 
 typedef struct
