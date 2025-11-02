@@ -104,7 +104,7 @@ void do_kSlti(CpuState* cpu_state, uint8_t rs, uint8_t rt, int16_t imm)
 {
     Register* regs = cpu_state->gpr_regs;
 
-    regs[rt] = (regs[rs] < sign_extend(imm));
+    regs[rt] = (regs[rs] < sign_extend(imm, 16));
 }
 
 
@@ -114,7 +114,7 @@ void do_kSt(CpuState* cpu_state, Memory* memory, uint8_t base, uint8_t rt, int16
 
     Register* regs = cpu_state->gpr_regs;
 
-    write_to_mem(memory, regs[base] + sign_extend(offset), regs[rt]);
+    write_to_mem(memory, regs[base] + sign_extend(offset, 16), regs[rt]);
 }
 
 
@@ -148,7 +148,7 @@ void do_kLdp(CpuState* cpu_state, Memory* memory, uint8_t base, uint8_t rt1, uin
     EXEC_ASSERT((offset & 3) == 0, "align") //check allignment
 
     Register* regs = cpu_state->gpr_regs;
-    Register addr = regs[base] + sign_extend(offset);
+    Register addr = regs[base] + sign_extend(offset, 16);
 
     regs[rt1] = read_from_mem(memory, addr);
     regs[rt2] = read_from_mem(memory, addr + 4);
@@ -158,7 +158,7 @@ void do_kLdp(CpuState* cpu_state, Memory* memory, uint8_t base, uint8_t rt1, uin
 void do_kBeq(CpuState* cpu_state, uint8_t rs, uint8_t rt, int16_t offset)
 {
     Register* regs = cpu_state->gpr_regs;
-    Register target = (sign_extend(offset) << 2);
+    Register target = (sign_extend(offset, 16) << 2);
 
     if (regs[rs] == regs[rt])
     {
@@ -173,7 +173,7 @@ void do_kLd(CpuState* cpu_state, Memory* memory, uint8_t base, uint8_t rt, int16
 
     Register* regs = cpu_state->gpr_regs;
 
-    regs[rt] = read_from_mem(memory, regs[base] + sign_extend(offset));
+    regs[rt] = read_from_mem(memory, regs[base] + sign_extend(offset, 16));
 }
 
 
@@ -202,7 +202,15 @@ void do_kUsat(CpuState* cpu_state, uint8_t rd, uint8_t rs, uint8_t imm5)
 }
 
 
-Register sign_extend(int32_t val)
+Register sign_extend(Register val, int len)
 {
-    return (Register)val;
+    Register mask = 0;
+
+    if (val & (2 << (len - 1))) //older bit == 1
+    {
+        mask = ((2 << len) - 1) ^ 1;
+        val &= mask;
+    }
+
+    return val;
 }

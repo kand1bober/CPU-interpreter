@@ -30,6 +30,6 @@ void do_kLd(CpuState* cpu_state, Memory* memory, uint8_t base, uint8_t rt, int16
 void do_kJ(CpuState* cpu_state, int32_t index);
 void do_kUsat(CpuState* cpu_state, uint8_t rd, uint8_t rs, uint8_t imm5);
 
-Register sign_extend(int32_t val);
+Register sign_extend(Register val, int len);
 
 #endif 
