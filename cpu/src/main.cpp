@@ -52,7 +52,7 @@ void process_cmd(CpuState* cpu_state,
     cpu_state->status = trans_block_table.lookup_block(cpu_state->pc, &to_translate);
     if (cpu_state->status == CpuState::kTransBlockFound)
     {
-        //вызов функции asmjit
+        to_translate->execute();
         return;
     }
 
@@ -67,8 +67,9 @@ void process_cmd(CpuState* cpu_state,
         if (to_execute->freq_ > kTrashHold)
         {
             printf("translate base block\n");
-            // decode();
-            // translate();
+            TransBlock* trans_block = trans_block_table.add_block(to_execute->pc_beg_);
+            trans_block->translate(cpu_state, memory, *to_execute);
+            trans_block->execute();
         }
         else 
         {

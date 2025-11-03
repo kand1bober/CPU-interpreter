@@ -38,13 +38,13 @@ public:
     Register pc_end_;
     Func fn_; // Holds address to the generated function.
 
-    int translate(CpuState* cpu_state, 
-                  Memory* memory, 
-                  const BaseBlock& base_block);
+    void translate(CpuState* cpu_state, 
+                   Memory* memory, 
+                   const BaseBlock& base_block);
 
     void execute() { fn_(); }
 
-    TransBlock(Register curr_pc) :
+    TransBlock() :
         pc_beg_(0),
         pc_end_(0)
         {}
@@ -66,7 +66,7 @@ public:
 
     TransBlock* add_block(Register curr_pc)
     {
-        TransBlock* new_block = new TransBlock(curr_pc);
+        TransBlock* new_block = new TransBlock();
         hash_[curr_pc] = new_block;
 
         return new_block;
