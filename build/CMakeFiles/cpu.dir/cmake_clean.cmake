@@ -1,10 +1,13 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/cpu.dir/link.d"
   "CMakeFiles/cpu.dir/cpu/src/instructions.cpp.o"
   "CMakeFiles/cpu.dir/cpu/src/instructions.cpp.o.d"
+  "CMakeFiles/cpu.dir/cpu/src/interrpret.cpp.o"
+  "CMakeFiles/cpu.dir/cpu/src/interrpret.cpp.o.d"
   "CMakeFiles/cpu.dir/cpu/src/main.cpp.o"
   "CMakeFiles/cpu.dir/cpu/src/main.cpp.o.d"
-  "CMakeFiles/cpu.dir/cpu/src/stages.cpp.o"
-  "CMakeFiles/cpu.dir/cpu/src/stages.cpp.o.d"
+  "CMakeFiles/cpu.dir/cpu/src/translate.cpp.o"
+  "CMakeFiles/cpu.dir/cpu/src/translate.cpp.o.d"
   "cpu"
   "cpu.pdb"
 )

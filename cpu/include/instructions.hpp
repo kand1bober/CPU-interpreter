@@ -3,7 +3,7 @@
 #include <math.h>
 
 #include "cpu_header.hpp"
-#include "stages.hpp"
+#include "interpret.hpp"
 
 #ifndef INSTRUCTIONS_HEADER
 #define INSTRUCTIONS_HEADER

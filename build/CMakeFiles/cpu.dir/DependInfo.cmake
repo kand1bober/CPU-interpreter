@@ -9,8 +9,10 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/vyacheslav/CPU-Interpreter/cpu/src/instructions.cpp" "CMakeFiles/cpu.dir/cpu/src/instructions.cpp.o" "gcc" "CMakeFiles/cpu.dir/cpu/src/instructions.cpp.o.d"
+  "/home/vyacheslav/CPU-Interpreter/cpu/src/interrpret.cpp" "CMakeFiles/cpu.dir/cpu/src/interrpret.cpp.o" "gcc" "CMakeFiles/cpu.dir/cpu/src/interrpret.cpp.o.d"
   "/home/vyacheslav/CPU-Interpreter/cpu/src/main.cpp" "CMakeFiles/cpu.dir/cpu/src/main.cpp.o" "gcc" "CMakeFiles/cpu.dir/cpu/src/main.cpp.o.d"
-  "/home/vyacheslav/CPU-Interpreter/cpu/src/stages.cpp" "CMakeFiles/cpu.dir/cpu/src/stages.cpp.o" "gcc" "CMakeFiles/cpu.dir/cpu/src/stages.cpp.o.d"
+  "/home/vyacheslav/CPU-Interpreter/cpu/src/translate.cpp" "CMakeFiles/cpu.dir/cpu/src/translate.cpp.o" "gcc" "CMakeFiles/cpu.dir/cpu/src/translate.cpp.o.d"
+  "" "cpu" "gcc" "CMakeFiles/cpu.dir/link.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

@@ -21,19 +21,6 @@
 #endif
 
 
-typedef enum 
-{
-    kGood,
-    kStopped,
-
-    kInputEnd,
-
-    kBaseBlockFound,
-    kBaseBlockNotFound,
-
-    kTransBlockFound,
-    kTransBlockNotFound,
-} CpuInfo;
 
 
 typedef struct
@@ -50,6 +37,20 @@ typedef uint32_t Register;
 
 typedef struct
 {   
+    typedef enum 
+    {
+        kGood,
+        kStopped,
+
+        kInputEnd,
+
+        kBaseBlockFound,
+        kBaseBlockNotFound,
+
+        kTransBlockFound,
+        kTransBlockNotFound,
+    } CpuInfo;
+    
     CpuInfo status;
     Register gpr_regs[kNumRegs];
     Register pc;

@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
     read_file(filename, &code);
 
     //init interpreter
-    CpuState cpu_state = {.status = kGood, .pc = 0};
+    CpuState cpu_state = {.status = CpuState::kGood, .pc = 0};
     Memory memory = {.capacity = 0};
     uint32_t curr_cmd = 0;
     for (int i = 0; i < kNumRegs; i++)
@@ -50,7 +50,7 @@ void process_cmd(CpuState* cpu_state,
 {
     TransBlock* to_translate = NULL;
     cpu_state->status = trans_block_table.lookup_block(cpu_state->pc, &to_translate);
-    if (cpu_state->status == kTransBlockFound)
+    if (cpu_state->status == CpuState::kTransBlockFound)
     {
         //вызов функции asmjit
         return;
@@ -62,12 +62,13 @@ void process_cmd(CpuState* cpu_state,
 
     BaseBlock* to_execute = NULL;
     cpu_state->status = base_block_table.lookup_block(cpu_state->pc, &to_execute); 
-    if (cpu_state->status == kBaseBlockFound)
+    if (cpu_state->status == CpuState::kBaseBlockFound)
     {
         if (to_execute->freq_ > kTrashHold)
         {
             printf("translate base block\n");
-            //translate
+            // decode();
+            // translate();
         }
         else 
         {
@@ -91,7 +92,7 @@ void process_cmd(CpuState* cpu_state,
                 printf("    add instr to curr block\n");
                 printf("end block\n");
                 curr_block->add_instr(decoded);
-                curr_block->end_block(cpu_state->pc);
+                curr_block->end_building(cpu_state->pc);
                 block_state = kNotBuilding;
             }
             case kNotBuilding:
@@ -116,7 +117,7 @@ void process_cmd(CpuState* cpu_state,
             case kNotBuilding: //fall through
             {
                 printf("start block\n");
-                curr_block = base_block_table.start_block(cpu_state->pc);                            
+                curr_block = base_block_table.add_block(cpu_state->pc);                            
                 block_state = kBuilding;
             }
             case kBuilding:

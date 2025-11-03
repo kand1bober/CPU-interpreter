@@ -1,0 +1,1316 @@
+{
+	"archive" : {},
+	"artifacts" : 
+	[
+		{
+			"path" : "3rdparty/asmjit/libasmjit.a"
+		}
+	],
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"asmjit_add_target",
+			"install",
+			"target_link_libraries",
+			"target_compile_options",
+			"target_include_directories"
+		],
+		"files" : 
+		[
+			"3rdparty/asmjit/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 554,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 363,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 572,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 373,
+				"parent" : 1
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 370,
+				"parent" : 1
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 561,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 562,
+				"parent" : 0
+			}
+		]
+	},
+	"codemodelVersion" : 
+	{
+		"major" : 2,
+		"minor" : 9
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g -fvisibility=hidden"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-Wall"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-Wextra"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-Wconversion"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-Wdouble-promotion"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-Wduplicated-cond"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-Wduplicated-branches"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-Wlogical-op"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-Wlogical-not-parentheses"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-Wrestrict"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-fno-math-errno"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-fno-threadsafe-statics"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-fno-semantic-interposition"
+				},
+				{
+					"backtrace" : 6,
+					"fragment" : "-DASMJIT_STATIC"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 7,
+					"path" : "/home/vyacheslav/CPU-Interpreter/3rdparty/asmjit"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				6,
+				9,
+				11,
+				14,
+				16,
+				18,
+				21,
+				23,
+				25,
+				27,
+				29,
+				31,
+				33,
+				36,
+				38,
+				40,
+				42,
+				44,
+				46,
+				48,
+				50,
+				52,
+				55,
+				57,
+				66,
+				68,
+				70,
+				72,
+				74,
+				76,
+				78,
+				80,
+				82,
+				84,
+				86,
+				90,
+				92,
+				95,
+				100,
+				105,
+				107,
+				109,
+				111,
+				114,
+				116,
+				119,
+				121,
+				123,
+				125,
+				129,
+				131,
+				133,
+				135,
+				138,
+				140,
+				143,
+				146,
+				148,
+				150,
+				154,
+				155,
+				158
+			]
+		}
+	],
+	"id" : "asmjit::@d4fcb079eb1555895224",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 3,
+				"path" : "lib"
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "/usr/local"
+		}
+	},
+	"interfaceLinkLibraries" : 
+	[
+		{
+			"backtrace" : 4,
+			"fragment" : "c"
+		}
+	],
+	"linkLibraries" : 
+	[
+		{
+			"backtrace" : 4,
+			"fragment" : "c"
+		}
+	],
+	"name" : "asmjit",
+	"nameOnDisk" : "libasmjit.a",
+	"paths" : 
+	{
+		"build" : "3rdparty/asmjit",
+		"source" : "3rdparty/asmjit"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "asmjit",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				98,
+				99,
+				127
+			]
+		},
+		{
+			"name" : "asmjit\\core",
+			"sourceIndexes" : 
+			[
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				30,
+				31,
+				32,
+				33,
+				34,
+				35,
+				36,
+				37,
+				38,
+				39,
+				40,
+				41,
+				42,
+				43,
+				44,
+				45,
+				46,
+				47,
+				48,
+				49,
+				50,
+				51,
+				52,
+				53,
+				54,
+				55,
+				56,
+				57,
+				58,
+				59,
+				60,
+				61,
+				62,
+				63,
+				64,
+				65,
+				66,
+				67,
+				68,
+				69,
+				70,
+				71,
+				72,
+				73,
+				74,
+				75,
+				76,
+				77,
+				78,
+				79
+			]
+		},
+		{
+			"name" : "asmjit\\support",
+			"sourceIndexes" : 
+			[
+				80,
+				81,
+				82,
+				83,
+				84,
+				85,
+				86,
+				87,
+				88,
+				89,
+				90,
+				91,
+				92,
+				93,
+				94,
+				95,
+				96,
+				97
+			]
+		},
+		{
+			"name" : "asmjit\\arm",
+			"sourceIndexes" : 
+			[
+				100,
+				101,
+				102,
+				103,
+				104,
+				105,
+				106,
+				107,
+				108,
+				109,
+				110,
+				111,
+				112,
+				113,
+				114,
+				115,
+				116,
+				117,
+				118,
+				119,
+				120,
+				121,
+				122,
+				123,
+				124,
+				125,
+				126
+			]
+		},
+		{
+			"name" : "asmjit\\x86",
+			"sourceIndexes" : 
+			[
+				128,
+				129,
+				130,
+				131,
+				132,
+				133,
+				134,
+				135,
+				136,
+				137,
+				138,
+				139,
+				140,
+				141,
+				142,
+				143,
+				144,
+				145,
+				146,
+				147,
+				148,
+				149,
+				150,
+				151
+			]
+		},
+		{
+			"name" : "asmjit\\ujit",
+			"sourceIndexes" : 
+			[
+				152,
+				153,
+				154,
+				155,
+				156,
+				157,
+				158,
+				159
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/asmjit.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/asmjit-scope-begin.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/asmjit-scope-end.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/api-build_p.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/api-config.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/archtraits.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/archtraits.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/archcommons.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/assembler.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/assembler.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/builder.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/builder.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/codebuffer.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/codeholder.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/codeholder.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/codewriter.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/codewriter_p.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/compiler.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/compiler.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/compilerdefs.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/constpool.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/constpool.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/cpuinfo.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/cpuinfo.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/emithelper.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/emithelper_p.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/emitter.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/emitter.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/emitterutils.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/emitterutils_p.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/environment.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/environment.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/errorhandler.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/errorhandler.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/fixup.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/formatter.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/formatter.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/func.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/func.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/funcargscontext.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/funcargscontext_p.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/globals.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/globals.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/inst.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/inst.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/instdb.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/instdb_p.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/jitallocator.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/jitallocator.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/jitruntime.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/jitruntime.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/logger.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/logger.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/misc_p.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/operand.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/operand.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/osutils.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/osutils.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/osutils_p.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/raassignment_p.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/racfgblock_p.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/racfgbuilder_p.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/raconstraints_p.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/radefs_p.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/rainst_p.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/ralocal.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/ralocal_p.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/rapass.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/rapass_p.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/rastack.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/rastack_p.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/string.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/string.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/target.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/target.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/type.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/type.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/core/virtmem.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/core/virtmem.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/support/arena.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/support/arena.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/support/arenabitset.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/support/arenabitset_p.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/support/arenahash.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/support/arenahash.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/support/arenalist.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/support/arenalist.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/support/arenapool.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/support/arenastring.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/support/arenatree.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/support/arenatree.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/support/arenavector.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/support/arenavector.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/support/span.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/support/support.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/support/support.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/support/support_p.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/a64.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/arm.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/arm/armformatter.cpp",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/arm/armformatter_p.h",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/arm/armglobals.h",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/arm/armutils.h",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/arm/a64archtraits_p.h",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/arm/a64assembler.cpp",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/arm/a64assembler.h",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/arm/a64builder.cpp",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/arm/a64builder.h",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/arm/a64compiler.cpp",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/arm/a64compiler.h",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/arm/a64emithelper.cpp",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/arm/a64emithelper_p.h",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/arm/a64emitter.h",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/arm/a64formatter.cpp",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/arm/a64formatter_p.h",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/arm/a64func.cpp",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/arm/a64func_p.h",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/arm/a64globals.h",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/arm/a64instapi.cpp",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/arm/a64instapi_p.h",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/arm/a64instdb.cpp",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/arm/a64instdb.h",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/arm/a64operand.cpp",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/arm/a64operand.h",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/arm/a64rapass.cpp",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/arm/a64rapass_p.h",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/x86.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/x86/x86archtraits_p.h",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/x86/x86assembler.cpp",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/x86/x86assembler.h",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/x86/x86builder.cpp",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/x86/x86builder.h",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/x86/x86compiler.cpp",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/x86/x86compiler.h",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/x86/x86emithelper.cpp",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/x86/x86emithelper_p.h",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/x86/x86emitter.h",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/x86/x86formatter.cpp",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/x86/x86formatter_p.h",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/x86/x86func.cpp",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/x86/x86func_p.h",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/x86/x86globals.h",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/x86/x86instdb.cpp",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/x86/x86instdb.h",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/x86/x86instdb_p.h",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/x86/x86instapi.cpp",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/x86/x86instapi_p.h",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/x86/x86operand.cpp",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/x86/x86operand.h",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/x86/x86rapass.cpp",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/x86/x86rapass_p.h",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/ujit/ujitbase.h",
+			"sourceGroupIndex" : 5
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/ujit/unicompiler.h",
+			"sourceGroupIndex" : 5
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/ujit/unicompiler_a64.cpp",
+			"sourceGroupIndex" : 5
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/ujit/unicompiler_x86.cpp",
+			"sourceGroupIndex" : 5
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/ujit/unicompiler_utils_p.h",
+			"sourceGroupIndex" : 5
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/ujit/uniop.h",
+			"sourceGroupIndex" : 5
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "3rdparty/asmjit/asmjit/ujit/vecconsttable.cpp",
+			"sourceGroupIndex" : 5
+		},
+		{
+			"backtrace" : 2,
+			"path" : "3rdparty/asmjit/asmjit/ujit/vecconsttable.h",
+			"sourceGroupIndex" : 5
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}
