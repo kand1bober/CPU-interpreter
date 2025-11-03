@@ -69,24 +69,10 @@ include CMakeFiles/cpu.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/cpu.dir/flags.make
 
-CMakeFiles/cpu.dir/cpu/src/arr_work.cpp.o: CMakeFiles/cpu.dir/flags.make
-CMakeFiles/cpu.dir/cpu/src/arr_work.cpp.o: /home/vyacheslav/CPU-Interpreter/cpu/src/arr_work.cpp
-CMakeFiles/cpu.dir/cpu/src/arr_work.cpp.o: CMakeFiles/cpu.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/vyacheslav/CPU-Interpreter/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/cpu.dir/cpu/src/arr_work.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpu.dir/cpu/src/arr_work.cpp.o -MF CMakeFiles/cpu.dir/cpu/src/arr_work.cpp.o.d -o CMakeFiles/cpu.dir/cpu/src/arr_work.cpp.o -c /home/vyacheslav/CPU-Interpreter/cpu/src/arr_work.cpp
-
-CMakeFiles/cpu.dir/cpu/src/arr_work.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cpu.dir/cpu/src/arr_work.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/vyacheslav/CPU-Interpreter/cpu/src/arr_work.cpp > CMakeFiles/cpu.dir/cpu/src/arr_work.cpp.i
-
-CMakeFiles/cpu.dir/cpu/src/arr_work.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cpu.dir/cpu/src/arr_work.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/vyacheslav/CPU-Interpreter/cpu/src/arr_work.cpp -o CMakeFiles/cpu.dir/cpu/src/arr_work.cpp.s
-
 CMakeFiles/cpu.dir/cpu/src/instructions.cpp.o: CMakeFiles/cpu.dir/flags.make
 CMakeFiles/cpu.dir/cpu/src/instructions.cpp.o: /home/vyacheslav/CPU-Interpreter/cpu/src/instructions.cpp
 CMakeFiles/cpu.dir/cpu/src/instructions.cpp.o: CMakeFiles/cpu.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/vyacheslav/CPU-Interpreter/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/cpu.dir/cpu/src/instructions.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/vyacheslav/CPU-Interpreter/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/cpu.dir/cpu/src/instructions.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpu.dir/cpu/src/instructions.cpp.o -MF CMakeFiles/cpu.dir/cpu/src/instructions.cpp.o.d -o CMakeFiles/cpu.dir/cpu/src/instructions.cpp.o -c /home/vyacheslav/CPU-Interpreter/cpu/src/instructions.cpp
 
 CMakeFiles/cpu.dir/cpu/src/instructions.cpp.i: cmake_force
@@ -100,7 +86,7 @@ CMakeFiles/cpu.dir/cpu/src/instructions.cpp.s: cmake_force
 CMakeFiles/cpu.dir/cpu/src/main.cpp.o: CMakeFiles/cpu.dir/flags.make
 CMakeFiles/cpu.dir/cpu/src/main.cpp.o: /home/vyacheslav/CPU-Interpreter/cpu/src/main.cpp
 CMakeFiles/cpu.dir/cpu/src/main.cpp.o: CMakeFiles/cpu.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/vyacheslav/CPU-Interpreter/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/cpu.dir/cpu/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/vyacheslav/CPU-Interpreter/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/cpu.dir/cpu/src/main.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpu.dir/cpu/src/main.cpp.o -MF CMakeFiles/cpu.dir/cpu/src/main.cpp.o.d -o CMakeFiles/cpu.dir/cpu/src/main.cpp.o -c /home/vyacheslav/CPU-Interpreter/cpu/src/main.cpp
 
 CMakeFiles/cpu.dir/cpu/src/main.cpp.i: cmake_force
@@ -114,7 +100,7 @@ CMakeFiles/cpu.dir/cpu/src/main.cpp.s: cmake_force
 CMakeFiles/cpu.dir/cpu/src/stages.cpp.o: CMakeFiles/cpu.dir/flags.make
 CMakeFiles/cpu.dir/cpu/src/stages.cpp.o: /home/vyacheslav/CPU-Interpreter/cpu/src/stages.cpp
 CMakeFiles/cpu.dir/cpu/src/stages.cpp.o: CMakeFiles/cpu.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/vyacheslav/CPU-Interpreter/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/cpu.dir/cpu/src/stages.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/vyacheslav/CPU-Interpreter/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/cpu.dir/cpu/src/stages.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpu.dir/cpu/src/stages.cpp.o -MF CMakeFiles/cpu.dir/cpu/src/stages.cpp.o.d -o CMakeFiles/cpu.dir/cpu/src/stages.cpp.o -c /home/vyacheslav/CPU-Interpreter/cpu/src/stages.cpp
 
 CMakeFiles/cpu.dir/cpu/src/stages.cpp.i: cmake_force
@@ -127,7 +113,6 @@ CMakeFiles/cpu.dir/cpu/src/stages.cpp.s: cmake_force
 
 # Object files for target cpu
 cpu_OBJECTS = \
-"CMakeFiles/cpu.dir/cpu/src/arr_work.cpp.o" \
 "CMakeFiles/cpu.dir/cpu/src/instructions.cpp.o" \
 "CMakeFiles/cpu.dir/cpu/src/main.cpp.o" \
 "CMakeFiles/cpu.dir/cpu/src/stages.cpp.o"
@@ -135,14 +120,13 @@ cpu_OBJECTS = \
 # External object files for target cpu
 cpu_EXTERNAL_OBJECTS =
 
-cpu: CMakeFiles/cpu.dir/cpu/src/arr_work.cpp.o
 cpu: CMakeFiles/cpu.dir/cpu/src/instructions.cpp.o
 cpu: CMakeFiles/cpu.dir/cpu/src/main.cpp.o
 cpu: CMakeFiles/cpu.dir/cpu/src/stages.cpp.o
 cpu: CMakeFiles/cpu.dir/build.make
 cpu: libutilities_lib.a
 cpu: CMakeFiles/cpu.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/vyacheslav/CPU-Interpreter/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable cpu"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/vyacheslav/CPU-Interpreter/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable cpu"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/cpu.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -24,14 +24,15 @@ int main(int argc, char* argv[])
     {
         cpu_state.gpr_regs[i] = 0;
     }
-    BlockTable block_table;
+    BaseBlockTable base_block_table;
+    TransBlockTable trans_block_table;
 
     //start interpreter
     while (1)
     {
         fetch(&cpu_state, &code, &curr_cmd);
 
-        process_cmd(&cpu_state, &memory, curr_cmd, block_table);
+        process_cmd(&cpu_state, &memory, curr_cmd, base_block_table, trans_block_table);
     }
 
     //close interpreter
@@ -41,21 +42,42 @@ int main(int argc, char* argv[])
 }
 
 
-void process_cmd(CpuState* cpu_state, Memory* memory, uint32_t curr_cmd, BlockTable& block_table)
+void process_cmd(CpuState* cpu_state, 
+                 Memory* memory, 
+                 uint32_t curr_cmd, 
+                 BaseBlockTable& base_block_table, 
+                 TransBlockTable& trans_block_table)
 {
+    TransBlock* to_translate = NULL;
+    cpu_state->status = trans_block_table.lookup_block(cpu_state->pc, &to_translate);
+    if (cpu_state->status == kTransBlockFound)
+    {
+        //вызов функции asmjit
+        return;
+    }
+
     static BaseBlock* curr_block = NULL; //currently builded block
     static BaseBlockState block_state = kNotBuilding;
     DecodedResult decoded;
 
     BaseBlock* to_execute = NULL;
-    cpu_state->status = block_table.lookup_block(cpu_state->pc, &to_execute); 
+    cpu_state->status = base_block_table.lookup_block(cpu_state->pc, &to_execute); 
     if (cpu_state->status == kBaseBlockFound)
     {
-        printf("execute ready block\n");
-        execute(cpu_state, memory, to_execute->instr_arr_, to_execute->sz_);
-        cpu_state->pc = to_execute->pc_end_;
+        if (to_execute->freq_ > kTrashHold)
+        {
+            printf("translate base block\n");
+            //translate
+        }
+        else 
+        {
+            printf("interpret base block\n");
+            execute(cpu_state, memory, to_execute->instr_arr_, to_execute->sz_);
+            to_execute->freq_++;
+            cpu_state->pc = to_execute->pc_end_;
+        }
         return;
-    }   
+    }
 
     decode(cpu_state, curr_cmd, &decoded);
 
@@ -94,7 +116,7 @@ void process_cmd(CpuState* cpu_state, Memory* memory, uint32_t curr_cmd, BlockTa
             case kNotBuilding: //fall through
             {
                 printf("start block\n");
-                curr_block = block_table.start_block(cpu_state->pc);                            
+                curr_block = base_block_table.start_block(cpu_state->pc);                            
                 block_state = kBuilding;
             }
             case kBuilding:

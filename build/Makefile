@@ -142,30 +142,6 @@ cpu/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cpu.dir/build.make CMakeFiles/cpu.dir/build
 .PHONY : cpu/fast
 
-cpu/src/arr_work.o: cpu/src/arr_work.cpp.o
-.PHONY : cpu/src/arr_work.o
-
-# target to build an object file
-cpu/src/arr_work.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cpu.dir/build.make CMakeFiles/cpu.dir/cpu/src/arr_work.cpp.o
-.PHONY : cpu/src/arr_work.cpp.o
-
-cpu/src/arr_work.i: cpu/src/arr_work.cpp.i
-.PHONY : cpu/src/arr_work.i
-
-# target to preprocess a source file
-cpu/src/arr_work.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cpu.dir/build.make CMakeFiles/cpu.dir/cpu/src/arr_work.cpp.i
-.PHONY : cpu/src/arr_work.cpp.i
-
-cpu/src/arr_work.s: cpu/src/arr_work.cpp.s
-.PHONY : cpu/src/arr_work.s
-
-# target to generate assembly for a file
-cpu/src/arr_work.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cpu.dir/build.make CMakeFiles/cpu.dir/cpu/src/arr_work.cpp.s
-.PHONY : cpu/src/arr_work.cpp.s
-
 cpu/src/instructions.o: cpu/src/instructions.cpp.o
 .PHONY : cpu/src/instructions.o
 
@@ -272,9 +248,6 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... cpu"
 	@echo "... utilities_lib"
-	@echo "... cpu/src/arr_work.o"
-	@echo "... cpu/src/arr_work.i"
-	@echo "... cpu/src/arr_work.s"
 	@echo "... cpu/src/instructions.o"
 	@echo "... cpu/src/instructions.i"
 	@echo "... cpu/src/instructions.s"

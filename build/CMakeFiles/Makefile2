@@ -83,7 +83,7 @@ clean: CMakeFiles/cpu.dir/clean
 CMakeFiles/utilities_lib.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/utilities_lib.dir/build.make CMakeFiles/utilities_lib.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/utilities_lib.dir/build.make CMakeFiles/utilities_lib.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/vyacheslav/CPU-Interpreter/build/CMakeFiles --progress-num=6,7 "Built target utilities_lib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/vyacheslav/CPU-Interpreter/build/CMakeFiles --progress-num=5,6 "Built target utilities_lib"
 .PHONY : CMakeFiles/utilities_lib.dir/all
 
 # Build rule for subdir invocation for target.
@@ -109,12 +109,12 @@ CMakeFiles/utilities_lib.dir/clean:
 CMakeFiles/cpu.dir/all: CMakeFiles/utilities_lib.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cpu.dir/build.make CMakeFiles/cpu.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cpu.dir/build.make CMakeFiles/cpu.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/vyacheslav/CPU-Interpreter/build/CMakeFiles --progress-num=1,2,3,4,5 "Built target cpu"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/vyacheslav/CPU-Interpreter/build/CMakeFiles --progress-num=1,2,3,4 "Built target cpu"
 .PHONY : CMakeFiles/cpu.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/cpu.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/vyacheslav/CPU-Interpreter/build/CMakeFiles 7
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/vyacheslav/CPU-Interpreter/build/CMakeFiles 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/cpu.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/vyacheslav/CPU-Interpreter/build/CMakeFiles 0
 .PHONY : CMakeFiles/cpu.dir/rule

@@ -155,7 +155,7 @@ CMakeFiles/cpu.dir/cpu/src/main.cpp.o: \
  /usr/include/c++/13/tr1/poly_laguerre.tcc \
  /usr/include/c++/13/tr1/riemann_zeta.tcc \
  /home/vyacheslav/CPU-Interpreter/cpu/src/../include/stages.hpp \
- /home/vyacheslav/CPU-Interpreter/cpu/src/../include/arr_work.hpp \
+ /home/vyacheslav/CPU-Interpreter/cpu/src/../include/block_work.hpp \
  /usr/include/assert.h /usr/include/c++/13/unordered_map \
  /usr/include/c++/13/bits/unordered_map.h \
  /usr/include/c++/13/bits/hashtable.h \

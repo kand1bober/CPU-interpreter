@@ -146,6 +146,12 @@ void execute(CpuState* cpu_state, Memory* memory, std::vector<DecodedResult>& in
 #undef OP
 
 
+void translate()
+{
+    
+}
+
+
 void advance_pc(CpuState* cpu_state, uint32_t curr_cmd)
 {
     switch (TYPE(curr_cmd))

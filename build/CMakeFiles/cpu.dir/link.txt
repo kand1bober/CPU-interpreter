@@ -1,1 +1,1 @@
-/usr/bin/c++ -g CMakeFiles/cpu.dir/cpu/src/arr_work.cpp.o CMakeFiles/cpu.dir/cpu/src/instructions.cpp.o CMakeFiles/cpu.dir/cpu/src/main.cpp.o CMakeFiles/cpu.dir/cpu/src/stages.cpp.o -o cpu  libutilities_lib.a 
+/usr/bin/c++ -g CMakeFiles/cpu.dir/cpu/src/instructions.cpp.o CMakeFiles/cpu.dir/cpu/src/main.cpp.o CMakeFiles/cpu.dir/cpu/src/stages.cpp.o -o cpu  libutilities_lib.a 

@@ -30,6 +30,9 @@ typedef enum
 
     kBaseBlockFound,
     kBaseBlockNotFound,
+
+    kTransBlockFound,
+    kTransBlockNotFound,
 } CpuInfo;
 
 
@@ -41,7 +44,7 @@ typedef struct
 
 
 #define kNumRegs 32
-#define CMD_SIZE 4 
+#define CMD_SIZE 4
 typedef uint32_t Register;
 
 

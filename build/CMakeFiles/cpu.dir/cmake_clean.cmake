@@ -1,6 +1,4 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/cpu.dir/cpu/src/arr_work.cpp.o"
-  "CMakeFiles/cpu.dir/cpu/src/arr_work.cpp.o.d"
   "CMakeFiles/cpu.dir/cpu/src/instructions.cpp.o"
   "CMakeFiles/cpu.dir/cpu/src/instructions.cpp.o.d"
   "CMakeFiles/cpu.dir/cpu/src/main.cpp.o"

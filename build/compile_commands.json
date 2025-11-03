@@ -7,12 +7,6 @@
 },
 {
   "directory": "/home/vyacheslav/CPU-Interpreter/build",
-  "command": "/usr/bin/c++   -g -o CMakeFiles/cpu.dir/cpu/src/arr_work.cpp.o -c /home/vyacheslav/CPU-Interpreter/cpu/src/arr_work.cpp",
-  "file": "/home/vyacheslav/CPU-Interpreter/cpu/src/arr_work.cpp",
-  "output": "CMakeFiles/cpu.dir/cpu/src/arr_work.cpp.o"
-},
-{
-  "directory": "/home/vyacheslav/CPU-Interpreter/build",
   "command": "/usr/bin/c++   -g -o CMakeFiles/cpu.dir/cpu/src/instructions.cpp.o -c /home/vyacheslav/CPU-Interpreter/cpu/src/instructions.cpp",
   "file": "/home/vyacheslav/CPU-Interpreter/cpu/src/instructions.cpp",
   "output": "CMakeFiles/cpu.dir/cpu/src/instructions.cpp.o"
