@@ -22,7 +22,7 @@ void translate_kSlti(x86::Assembler& as, uint8_t rs, uint8_t rt, int16_t imm);
 void translate_kSt(x86::Assembler& as, CpuState* cpu_state, Memory* memory, uint8_t base, uint8_t rt, int16_t offset);
 void translate_kSsat(x86::Assembler& as, uint8_t rd, uint8_t rs, int16_t imm5);
 void translate_kLdp(x86::Assembler& as, CpuState* cpu_state, Memory* memory, uint8_t base, uint8_t rt1, uint8_t rt2, int16_t offset);
-void translate_kBeq(x86::Assembler& as, uint8_t rs, uint8_t rt, int16_t offset);
+void translate_kBeq(x86::Assembler& as, CpuState* cpu_state, uint8_t rs, uint8_t rt, int16_t offset);
 void translate_kLd(x86::Assembler& as, CpuState* cpu_state, Memory* memory, uint8_t base, uint8_t rt, int16_t offset);
 void translate_kJ(x86::Assembler& as, int32_t index);
 void translate_kUsat(x86::Assembler& as, uint8_t rd, uint8_t rs, uint8_t imm5);

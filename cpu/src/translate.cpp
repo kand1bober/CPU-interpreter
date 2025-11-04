@@ -46,7 +46,7 @@ void TransBlock::translate(CpuState* cpu_state,
 
             TRANSLATE_CASE(kLdp, cpu_state, memory, OP(0), OP(1), OP(2), OP(3))
 
-            TRANSLATE_CASE(kBeq, OP(0), OP(1), OP(2))
+            TRANSLATE_CASE(kBeq, cpu_state, OP(0), OP(1), OP(2))
 
             TRANSLATE_CASE(kLd, cpu_state, memory, OP(0), OP(1), OP(2))
 

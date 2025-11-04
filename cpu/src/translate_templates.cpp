@@ -164,9 +164,31 @@ void translate_kLdp(Assembler& as, CpuState* cpu_state, Memory* memory, uint8_t 
     as.ret();
 }
 
-void translate_kBeq(Assembler& as, uint8_t rs, uint8_t rt, int16_t offset)
+void translate_kBeq(Assembler& as, CpuState* cpu_state, uint8_t rs, uint8_t rt, int16_t offset)
 {
+    asmjit::Label L1 = as.new_label();
+    asmjit::Label L2 = as.new_label();
+    asmjit::Label L3 = as.new_label();
 
+    as.mov(rdx, &(cpu_state->pc));
+
+    as.mov(eax, dword_ptr(edi, OFF(rs)));
+    as.mov(ebx, dword_ptr(edi, OFF(rt)));
+
+    as.cmp(eax, ebx);
+    as.je(L1);
+    as.jmp(L2);
+
+as.bind(L1); //pc = target
+    SIGN_EXTEND(bx, offset)
+    as.shl(ebx, 2);
+    as.add(dword_ptr(rdx), ebx);
+    as.jmp(L3);
+
+as.bind(L2); //pc += 4
+    as.add(dword_ptr(rdx), 4);
+
+as.bind(L3); //end
     as.ret();
 }
 
@@ -189,8 +211,7 @@ void translate_kLd(Assembler& as, CpuState* cpu_state, Memory* memory, uint8_t b
 
 void translate_kJ(Assembler& as, int32_t index)
 {
-
-    as.ret();
+    //Jumps are not presented in base blocks and treanslation blocks
 }
 
 void translate_kUsat(Assembler& as, uint8_t rd, uint8_t rs, uint8_t imm5)
