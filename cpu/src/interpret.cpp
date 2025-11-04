@@ -15,8 +15,8 @@ void fetch(CpuState* cpu_state, BufInfo* code, uint32_t* curr_cmd)
 #define OP(num, arg) decoded->operands[num] = arg;
 void decode(CpuState* cpu_state, uint32_t curr_cmd, DecodedResult* decoded)
 {
-    // DEB(CMD_DUMP(curr_cmd))
-    // DEB(CPU_DUMP(cpu_state))    
+    DEB(CMD_DUMP(curr_cmd))
+    DEB(CPU_DUMP(cpu_state))    
 
     Opcode opcode = (Opcode)TYPE(curr_cmd); 
     decoded->opcode = opcode;
@@ -139,8 +139,8 @@ void execute(CpuState* cpu_state, Memory* memory, std::vector<DecodedResult>& in
            default: {break;}
         }
 
-        // DEB(CPU_DUMP(cpu_state))    
-        // DEB(MEM_DUMP)
+        DEB(CPU_DUMP(cpu_state))    
+        DEB(MEM_DUMP)
     }
 }
 #undef OP

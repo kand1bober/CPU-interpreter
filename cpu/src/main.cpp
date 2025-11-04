@@ -56,8 +56,8 @@ void process_cmd(CpuState* cpu_state,
     cpu_state->status = trans_block_table.lookup_block(cpu_state->pc, &to_translate);
     if (cpu_state->status == CpuState::kTransBlockFound)
     {
-        printf("execute trans block\n");
-        to_translate->execute(cpu_state, memory);
+        // printf("execute trans block\n");
+        to_translate->execute(cpu_state);
         return;
     }
 
@@ -71,14 +71,15 @@ void process_cmd(CpuState* cpu_state,
     {
         if (to_execute->freq_ > kTrashHold)
         {
-            printf("translate base block\n");
+            // printf("translate base block\n");
+            // printf("execute trans block\n");
             TransBlock* trans_block = trans_block_table.add_block(to_execute->pc_beg_);
             trans_block->translate(cpu_state, memory, *to_execute);
-            trans_block->execute(cpu_state, memory);
+            trans_block->execute(cpu_state);
         }
         else 
         {
-            printf("interpret base block\n");
+            // printf("interpret base block\n");
             execute(cpu_state, memory, to_execute->instr_arr_, to_execute->sz_);
             to_execute->freq_++;
             cpu_state->pc = to_execute->pc_end_;
@@ -95,15 +96,13 @@ void process_cmd(CpuState* cpu_state,
         {
             case kBuilding: //fall through
             {
-                // printf("    add instr to curr block\n");
-                printf("end block\n");
-                // curr_block->add_instr(decoded);
+                // printf("end block\n");
                 curr_block->end_building(cpu_state->pc);
                 block_state = kNotBuilding;
             }
             case kNotBuilding:
             {
-                printf("execute lonely jump\n");
+                // printf("execute lonely jump\n");
                 std::vector<DecodedResult> decoded_vector{decoded};
                 execute(cpu_state, memory, decoded_vector, 1);
                 advance_pc(cpu_state, curr_cmd);
@@ -123,13 +122,13 @@ void process_cmd(CpuState* cpu_state,
         {
             case kNotBuilding: //fall through
             {
-                printf("start block\n");
+                // printf("start block\n");
                 curr_block = base_block_table.add_block(cpu_state->pc);                            
                 block_state = kBuilding;
             }
             case kBuilding:
             {
-                printf("    add instr to curr block\n");
+                // printf("    add instr to curr block\n");
                 curr_block->add_instr(decoded);
                 std::vector<DecodedResult> decoded_vector{decoded};
                 execute(cpu_state, memory, decoded_vector, 1);

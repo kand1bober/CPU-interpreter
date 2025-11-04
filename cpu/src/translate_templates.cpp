@@ -111,7 +111,7 @@ void translate_kSsat(Assembler& as, uint8_t rd, uint8_t rs, int16_t imm5)
     asmjit::Label L4 = as.new_label();
 
     as.mov(eax, 1);
-    as.shl(eax, imm5);
+    as.shl(eax, (imm5 - 1));
     as.mov(ebx, eax);
     as.sub(eax, 1); //max val
     as.neg(ebx); //min val
@@ -128,7 +128,7 @@ as.bind(L1); //more than max
     as.jmp(L4);
 
 as.bind(L2); //less than min 
-    as.mov(edx, eax);
+    as.mov(edx, ebx);
     as.jmp(L4);
 
 as.bind(L3); //in range

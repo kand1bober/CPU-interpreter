@@ -33,16 +33,26 @@ void do_kOr(CpuState* cpu_state, uint8_t rd, uint8_t rs, uint8_t rt)
 }
 
 
-//TODO: исправить, как pext в x86
 void do_kBext(CpuState* cpu_state, uint8_t rd, uint8_t rs1, uint8_t rs2)
 {
     Register* regs = cpu_state->gpr_regs;
     
-    uint32_t mask = regs[rs1] & regs[rs2]; //select bits
-    uint32_t invert_mask = regs[rs2] ^ (-1); 
+    Register reg_1 = regs[rs1], reg_2 = regs[rs2], res = 0;
+    size_t reg_size = sizeof(Register) * 8;
 
-    regs[rd] &= invert_mask; //zero certain bits
-    regs[rd] |= mask; //copy certan bits from rs1
+    int count = 0;
+    for (int i = 0; i < reg_size; i++)
+    {
+        if ((reg_2 >> i) & 1) {
+            count++;
+
+            if ((reg_1 >> i) & 1) {
+                res |= (1 << (count - 1));
+            }
+        }
+    }
+
+    regs[rd] = res;
 }
 
 
@@ -88,9 +98,10 @@ void do_kClz(CpuState* cpu_state, uint8_t rd, uint8_t rs)
     Register count = 0; 
     uint32_t to_measure = regs[rs];
     size_t reg_size = sizeof(Register) * 8;
+    Register old_bit = 1U << (reg_size - 1);
     for (size_t i = 0; i < reg_size; i++)
     {
-        if (!((to_measure << i) >> (reg_size - 1))) {
+        if (!((to_measure) & (1U << (reg_size - i - 1)))) {
             count++;
         }
         else 

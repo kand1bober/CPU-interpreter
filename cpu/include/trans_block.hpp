@@ -42,11 +42,7 @@ public:
                    Memory* memory, 
                    const BaseBlock& base_block);
 
-    void execute(CpuState* cpu_state, Memory* memory) { 
-        // DEB(CPU_DUMP(cpu_state))    
-        // DEB(MEM_DUMP)
-        // getchar();
-
+    void execute(CpuState* cpu_state) { 
         fn_();
         cpu_state->pc = pc_end_;
     }
