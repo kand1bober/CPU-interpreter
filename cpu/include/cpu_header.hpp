@@ -21,12 +21,11 @@
 #endif
 
 
-
-
+#define kMemCapacity 4096
 typedef struct
 {   
     char* data; 
-    size_t capacity;
+    uint32_t capacity;
 } Memory;
 
 

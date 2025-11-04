@@ -18,12 +18,10 @@ int main(int argc, char* argv[])
 
     //init interpreter
     CpuState cpu_state = {.status = CpuState::kGood, .pc = 0};
-    Memory memory = {.capacity = 0};
+    Memory memory = {.capacity = kMemCapacity};
+    memory.data = (char*)calloc(memory.capacity, 1);
     uint32_t curr_cmd = 0;
-    for (int i = 0; i < kNumRegs; i++)
-    {
-        cpu_state.gpr_regs[i] = 0;
-    }
+    for (int i = 0; i < kNumRegs; i++) { cpu_state.gpr_regs[i] = 0; }
     BaseBlockTable base_block_table;
     TransBlockTable trans_block_table;
 

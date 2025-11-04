@@ -9,7 +9,7 @@
                                     { \
                                         EXEC_ERROR \
                                         printf("details: bad %s\n\n", text); \
-                                        exit(1);\
+                                        exit(0);\
                                     }
 
 void do_kAdd(CpuState* cpu_state, uint8_t rd, uint8_t rs, uint8_t rt)
@@ -128,16 +128,13 @@ void do_kSsat(CpuState* cpu_state, uint8_t rd, uint8_t rs, int16_t imm5)
 
     // printf("SSAT MAX VAL: %d, MIN: %d\n", max_val, min_val);
 
-    if (regs[rs] > max_val)
-    {
+    if (regs[rs] > max_val) {
         regs[rd] = max_val;
     }
-    else if (regs[rs] < min_val)
-    {
+    else if (regs[rs] < min_val) {
         regs[rd] = min_val;
     }
-    else 
-    {
+    else {
         regs[rd] = regs[rs];
     }
 }
@@ -192,12 +189,10 @@ void do_kUsat(CpuState* cpu_state, uint8_t rd, uint8_t rs, uint8_t imm5)
 
     // printf("USAT MAX VAL: %d\n", max_val);
 
-    if (regs[rs] > max_val)
-    {
+    if (regs[rs] > max_val) {
         regs[rd] = max_val;
     }
-    else 
-    {
+    else {
         regs[rd] = regs[rs];
     }
 }

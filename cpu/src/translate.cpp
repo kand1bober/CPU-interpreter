@@ -40,15 +40,15 @@ void TransBlock::translate(CpuState* cpu_state,
 
             TRANSLATE_CASE(kSlti, OP(0), OP(1), OP(2))
 
-            TRANSLATE_CASE(kSt, memory, OP(0), OP(1), OP(2))
+            TRANSLATE_CASE(kSt, cpu_state, memory, OP(0), OP(1), OP(2))
 
             TRANSLATE_CASE(kSsat, OP(0), OP(1), OP(2))
 
-            TRANSLATE_CASE(kLdp, memory, OP(0), OP(1), OP(2), OP(3))
+            TRANSLATE_CASE(kLdp, cpu_state, memory, OP(0), OP(1), OP(2), OP(3))
 
             TRANSLATE_CASE(kBeq, OP(0), OP(1), OP(2))
 
-            TRANSLATE_CASE(kLd, memory, OP(0), OP(1), OP(2))
+            TRANSLATE_CASE(kLd, cpu_state, memory, OP(0), OP(1), OP(2))
 
             TRANSLATE_CASE(kJ, OP(0))
 
@@ -56,7 +56,7 @@ void TransBlock::translate(CpuState* cpu_state,
 
            default: {break;}
         }
-    }   
+    }
     
     Error err = rt_.add(&(TransBlock::fn_), &code); // Add the generated code to the runtime.
 

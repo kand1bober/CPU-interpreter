@@ -193,21 +193,14 @@ void advance_pc(CpuState* cpu_state, uint32_t curr_cmd)
 
 void write_to_mem(Memory* memory, Register addr, Register val)
 {
-    if (addr < 0)
-    {
+    if (addr < 0) {
         printf("Error: Wrong addr to write to memory\n");
         exit(0);
     }
 
-    if (memory->capacity < addr + sizeof(Register))
-    {   
-        memory->capacity = (addr + sizeof(Register));
-        memory->data = (char*)realloc(memory->data, memory->capacity);
-        if (memory->data == NULL)
-        {
-            perror("realloc");
-            exit(1);
-        }
+    if (memory->capacity < addr + sizeof(Register)) {   
+        printf("Error: attempt to access unallocated memory\n");
+        exit(0);
     }
 
     memcpy(memory->data + addr, &val, sizeof(Register));
@@ -216,14 +209,12 @@ void write_to_mem(Memory* memory, Register addr, Register val)
 
 Register read_from_mem(Memory* memory, Register addr)
 {
-    if (addr < 0)
-    {
+    if (addr < 0) {
         printf("Error: Wrong addr to read from\n");
         exit(0);
     }
 
-    if (memory->capacity < addr + sizeof(Register))
-    {   
+    if (memory->capacity < addr + sizeof(Register)) {   
         printf("Error: Trying to address unallocated memory region\n");
         exit(0);
     }
