@@ -13,7 +13,7 @@
 #define CPU_HEADER
 
 
-    // #define DEBUG
+    #define DEBUG
 #ifdef DEBUG
     #define DEB(expr) expr
 #else 
@@ -21,7 +21,7 @@
 #endif
 
 
-#define kMemCapacity 4096
+#define kMemCapacity 16
 typedef struct
 {   
     char* data; 

@@ -13,10 +13,10 @@ void TransBlock::translate(CpuState* cpu_state,
     
     CodeHolder code;                            // Holds code and relocation information.
     code.init(TransBlock::rt_.environment(),    // Initialize code to match the JIT environment.
-              rt_.cpu_features());
+              TransBlock::rt_.cpu_features());
     
     x86::Assembler as(&code);               // Create and attach x86::Assembler to code.
-    as.mov(x86::edi, cpu_state->gpr_regs);  // rdi = cpu_state->gpr_regs
+    as.mov(x86::rdi, cpu_state->gpr_regs);  // rdi = cpu_state->gpr_regs
 
     Opcode opcode;
     const uint32_t* operands = NULL;
@@ -54,10 +54,11 @@ void TransBlock::translate(CpuState* cpu_state,
 
             TRANSLATE_CASE(kUsat, OP(0), OP(1), OP(2))
 
-           default: {break;}
+            default: {break;}
         }
     }
-    
+
+    as.ret();
     Error err = rt_.add(&(TransBlock::fn_), &code); // Add the generated code to the runtime.
 
     if (err != Error::kOk) {  

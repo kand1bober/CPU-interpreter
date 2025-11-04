@@ -82,11 +82,4 @@ public:
     }
 };
 
-
-void process_cmd(CpuState* cpu_state, 
-                 Memory* memory, 
-                 uint32_t curr_cmd, 
-                 BaseBlockTable& block_table, 
-                 TransBlockTable& trans_block_table);
-
 #endif

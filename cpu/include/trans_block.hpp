@@ -8,12 +8,12 @@
 #define TRANSLATE_BLOCK_HEADER
 
 #define ASMJIT_EMBED
-#define ASMJIT_STATIC
+// #define ASMJIT_STATIC
 #define ASMJIT_BUILD_DEBUG
 // #define ASMJIT_BUILD_RELEASE
 #define ASMJIT_NO_ABI_NAMESPACE
 // #define ASMJIT_NO_X86
-#define ASMJIT_NO_AARCH64
+#define ASMJIT_NO_AARCH64   
 #define ASMJIT_NO_SHM_OPEN
 #define ASMJIT_NO_JIT
 #define ASMJIT_NO_LOGGING
@@ -42,7 +42,14 @@ public:
                    Memory* memory, 
                    const BaseBlock& base_block);
 
-    void execute() { fn_(); }
+    void execute(CpuState* cpu_state, Memory* memory) { 
+        // DEB(CPU_DUMP(cpu_state))    
+        // DEB(MEM_DUMP)
+        // getchar();
+
+        fn_();
+        cpu_state->pc = pc_end_;
+    }
 
     TransBlock() :
         pc_beg_(0),

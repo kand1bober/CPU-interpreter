@@ -1,5 +1,11 @@
 #include "../include/include.hpp"
 
+void process_cmd(CpuState* cpu_state, 
+                 Memory* memory, 
+                 uint32_t curr_cmd, 
+                 BaseBlockTable& block_table, 
+                 TransBlockTable& trans_block_table);
+
 int main(int argc, char* argv[])
 {
     //read instructions
@@ -50,7 +56,8 @@ void process_cmd(CpuState* cpu_state,
     cpu_state->status = trans_block_table.lookup_block(cpu_state->pc, &to_translate);
     if (cpu_state->status == CpuState::kTransBlockFound)
     {
-        to_translate->execute();
+        printf("execute trans block\n");
+        to_translate->execute(cpu_state, memory);
         return;
     }
 
@@ -67,7 +74,7 @@ void process_cmd(CpuState* cpu_state,
             printf("translate base block\n");
             TransBlock* trans_block = trans_block_table.add_block(to_execute->pc_beg_);
             trans_block->translate(cpu_state, memory, *to_execute);
-            trans_block->execute();
+            trans_block->execute(cpu_state, memory);
         }
         else 
         {
@@ -88,14 +95,15 @@ void process_cmd(CpuState* cpu_state,
         {
             case kBuilding: //fall through
             {
-                printf("    add instr to curr block\n");
+                // printf("    add instr to curr block\n");
                 printf("end block\n");
-                curr_block->add_instr(decoded);
+                // curr_block->add_instr(decoded);
                 curr_block->end_building(cpu_state->pc);
                 block_state = kNotBuilding;
             }
             case kNotBuilding:
             {
+                printf("execute lonely jump\n");
                 std::vector<DecodedResult> decoded_vector{decoded};
                 execute(cpu_state, memory, decoded_vector, 1);
                 advance_pc(cpu_state, curr_cmd);
