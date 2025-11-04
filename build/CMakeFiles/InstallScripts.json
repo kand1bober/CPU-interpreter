@@ -1,0 +1,8 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/vyacheslav/CPU-Interpreter/build/cmake_install.cmake",
+		"/home/vyacheslav/CPU-Interpreter/build/3rdparty/asmjit/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

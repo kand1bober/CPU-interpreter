@@ -115,9 +115,12 @@ def method_missing(method, *args)
                     Cmd.file.pos = (saved_counter) * 4
                     # puts("instr counter to patch: #{Cmd.instr_counter}")
                     Cmd.set_forward_j(Cmd.instr_counter) 
+                    # puts("forward jump to: #{Cmd.instr_counter}, write to #{Cmd.file.pos}, instr: #{Cmd.instr}")
                     # puts("instr: #{Cmd.instr}")
                     Cmd.file.write([Cmd.instr].pack("L<"))    
                     Cmd.file.pos = cur_pos #return pos in file
+                    # puts("cur_pos: #{cur_pos}")
+                    Cmd.reset_instr
                     
                 #back jump
                 else
@@ -137,6 +140,7 @@ def method_missing(method, *args)
                     return (saved_counter) 
                 #forward jump
                 else 
+                    # puts("forward jump from: #{Cmd.instr_counter}")
                     Cmd.forward_j_table_set(target, Cmd.instr_counter)
                     return 0
                 end
@@ -153,7 +157,7 @@ def method_missing(method, *args)
 end
 
 #------ Callable methods (top-level) ------
-  
+
 def init_cmd(filename)
     Cmd.file = File.open(filename, "wb")
     Cmd.reset_instr
