@@ -3,9 +3,11 @@
 ### тестовая программа для подсчета чисел Фибоначчи
 
 ```
-1) ruby input.rb
+1) ruby fib.rb
 
-2) make
+2) cmake -B build
 
-3) ./CPU
+3) cmake --build build
+
+4) ./build/cpu fib
 ``` 
