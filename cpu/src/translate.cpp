@@ -1,7 +1,9 @@
 #include "../include/trans_block.hpp"
+#include "../include/translate.hpp"
 
 using namespace asmjit;
 
+#define OP(num) operands[num]
 void TransBlock::translate(CpuState* cpu_state, 
                            Memory* memory, 
                            const BaseBlock& base_block) 
@@ -13,26 +15,54 @@ void TransBlock::translate(CpuState* cpu_state,
     code.init(TransBlock::rt_.environment(),    // Initialize code to match the JIT environment.
               rt_.cpu_features());
     
-    // <-- switch case by Opcode
-    // rdi = cpu_state->gpr_regs
+    x86::Assembler as(&code);               // Create and attach x86::Assembler to code.
+    as.mov(x86::edi, cpu_state->gpr_regs);  // rdi = cpu_state->gpr_regs
 
-    x86::Assembler as(&code);          // Create and attach x86::Assembler to code.
-    as.mov(x86::eax, 1);               // Move one to eax register.
-    as.ret();                          // Return from function.
-    // ===== x86::Assembler is no longer needed from here and can be destroyed =====
+    Opcode opcode;
+    const uint32_t* operands = NULL;
+    for (size_t i = 0; i < base_block.sz_; i++)
+    {
+        opcode = base_block.instr_arr_[i].opcode;
+        operands = base_block.instr_arr_[i].operands;
+        switch (opcode)
+        {
+            TRANSLATE_CASE(kAdd, OP(0), OP(1), OP(2))
+
+            TRANSLATE_CASE(kSub, OP(0), OP(1), OP(2))
+
+            TRANSLATE_CASE(kOr, OP(0), OP(1), OP(2))
+
+            TRANSLATE_CASE(kBext, OP(0), OP(1), OP(2))
+
+            TRANSLATE_CASE(kSyscall, 0)
+
+            TRANSLATE_CASE(kClz, OP(0), OP(1))
+
+            TRANSLATE_CASE(kSlti, OP(0), OP(1), OP(2))
+
+            TRANSLATE_CASE(kSt, memory, OP(0), OP(1), OP(2))
+
+            TRANSLATE_CASE(kSsat, OP(0), OP(1), OP(2))
+
+            TRANSLATE_CASE(kLdp, memory, OP(0), OP(1), OP(2), OP(3))
+
+            TRANSLATE_CASE(kBeq, OP(0), OP(1), OP(2))
+
+            TRANSLATE_CASE(kLd, memory, OP(0), OP(1), OP(2))
+
+            TRANSLATE_CASE(kJ, OP(0))
+
+            TRANSLATE_CASE(kUsat, OP(0), OP(1), OP(2))
+
+           default: {break;}
+        }
+    }   
     
     Error err = rt_.add(&(TransBlock::fn_), &code); // Add the generated code to the runtime.
-    
 
     if (err != Error::kOk) {  
-        printf("Error in generating code with asmjit\n"); // Handle a possible error returned by AsmJit.
+        printf("Error in generating code with asmjit\n");
         exit(1);
     }
-    // ===== CodeHolder is no longer needed from here and can be destroyed =====
-    
-    // All classes use RAII, all resources will be released before `main()` returns,
-    // the generated function can be, however, released explicitly if you intend to
-    // reuse or keep the runtime alive, which you should in a production-ready code.
-    
-    // rt.release(fn); //--> in destructor of TransBlock
- }
+}
+#undef OP

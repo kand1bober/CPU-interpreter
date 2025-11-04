@@ -4,11 +4,11 @@
 void fetch(CpuState* cpu_state, BufInfo* code, uint32_t* curr_cmd)
 {
     if ((cpu_state->pc + CMD_SIZE - 1) >= code->sz) 
-        cpu_state->status = kInputEnd;
+        cpu_state->status = CpuState::kInputEnd;
 
     memcpy(curr_cmd, code->buf + cpu_state->pc, CMD_SIZE);
 
-    cpu_state->status = kGood; 
+    cpu_state->status = CpuState::kGood; 
 }
 
 

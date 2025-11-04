@@ -4,8 +4,8 @@
 #include "cpu_header.hpp"
 #include "base_block.hpp"
 
-#ifndef TRANSLATE_HEADER
-#define TRANSLATE_HEADER
+#ifndef TRANSLATE_BLOCK_HEADER
+#define TRANSLATE_BLOCK_HEADER
 
 #define ASMJIT_EMBED
 #define ASMJIT_STATIC

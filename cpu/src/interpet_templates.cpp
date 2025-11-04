@@ -33,6 +33,7 @@ void do_kOr(CpuState* cpu_state, uint8_t rd, uint8_t rs, uint8_t rt)
 }
 
 
+//TODO: исправить, как pext в x86
 void do_kBext(CpuState* cpu_state, uint8_t rd, uint8_t rs1, uint8_t rs2)
 {
     Register* regs = cpu_state->gpr_regs;
