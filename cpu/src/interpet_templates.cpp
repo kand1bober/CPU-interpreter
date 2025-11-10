@@ -211,12 +211,16 @@ void do_kUsat(CpuState* cpu_state, uint8_t rd, uint8_t rs, uint8_t imm5)
 
 Register sign_extend(Register val, int len)
 {
+    if (len < 1 || len >= sizeof(Register) * 8) {
+        printf("bad using of sign extend\n");
+        exit(0);
+    }
+
     Register mask = 0;
 
-    if (val & (2 << (len - 1))) //older bit == 1
-    {
-        mask = ((2 << len) - 1) ^ 1;
-        val &= mask;
+    if (val & ((Register)1 << (len - 1))) { //older bit == 1
+        mask = ~(((Register)1 << len) - 1);
+        val |= mask;
     }
 
     return val;
