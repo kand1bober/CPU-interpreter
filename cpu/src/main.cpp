@@ -36,6 +36,8 @@ int main(int argc, char* argv[])
     {
         fetch(&cpu_state, &code, &curr_cmd);
 
+        // engine.run(); // class Engine { cpu_state, memory }
+        // JitTransltor { base_block_table, trans_block_table do_jit, translate } 
         process_cmd(&cpu_state, &memory, curr_cmd, base_block_table, trans_block_table);
     }
 
@@ -66,8 +68,9 @@ void process_cmd(CpuState* cpu_state,
     DecodedResult decoded;
 
     BaseBlock* to_execute = NULL;
+    // 
     cpu_state->status = base_block_table.lookup_block(cpu_state->pc, &to_execute); 
-    if (cpu_state->status == CpuState::kBaseBlockFound)
+    if (cpu_state->status == CpuState::kBaseBlockFound) // 
     {
         if (to_execute->freq_ > kTrashHold)
         {
@@ -87,6 +90,7 @@ void process_cmd(CpuState* cpu_state,
         return;
     }
 
+    // interpretator
     decode(cpu_state, curr_cmd, &decoded);
 
     if (decoded.opcode == kJ || decoded.opcode == kBeq)

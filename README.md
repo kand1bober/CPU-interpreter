@@ -11,3 +11,20 @@
 
 4) ./build/cpu fib
 ``` 
+
+## список инструкций
+
+- ADD  
+- OR  
+- SLTI  
+- ST  
+- BEXT  
+- SUB  
+- SSAT  
+- LDP  
+- BEQ  
+- LD  
+- SYSCALL  
+- J  
+- USAT  
+- CLZ

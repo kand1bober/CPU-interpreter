@@ -55,4 +55,10 @@ typedef struct
     Register pc;
 } CpuState;
 
+
+struct Engine {
+    CpuState* cpu_state;
+    Memory* memory;  
+};
+
 #endif

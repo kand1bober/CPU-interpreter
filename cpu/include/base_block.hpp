@@ -64,7 +64,7 @@ public:
 
     CpuState::CpuInfo lookup_block(Register curr_pc, BaseBlock** ans)
     {
-        auto hit = hash_.find(curr_pc);
+        auto hit = hash_.find(curr_pc); 
         if (hit == hash_.end())
             return CpuState::kBaseBlockNotFound;
         else 

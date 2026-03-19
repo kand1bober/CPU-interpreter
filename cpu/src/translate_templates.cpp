@@ -177,7 +177,7 @@ void translate_kBeq(Assembler& as, CpuState* cpu_state, uint8_t rs, uint8_t rt, 
     as.je(L1);
     as.jmp(L2);
 
-as.bind(L1); //pc = target
+as.bind(L1); //pc = target  cmov
     SIGN_EXTEND(ebx, bx, offset)
     as.shl(ebx, 2);
     as.add(dword_ptr(rdx), ebx);
